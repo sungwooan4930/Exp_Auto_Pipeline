@@ -8,11 +8,11 @@ Hypotheses:
 {hypotheses_text}
 
 Write a Markdown document with EXACTLY these 5 sections (use these exact headings):
-## 1. Research Overview
-## 2. Variables
-## 3. Methodology
-## 4. Evaluation Metrics
-## 5. Expected Results
+### 1. Research Overview
+### 2. Variables
+### 3. Methodology
+### 4. Evaluation Metrics
+### 5. Expected Results
 
 Requirements:
 - Section 2: List all independent and dependent variables with operational definitions

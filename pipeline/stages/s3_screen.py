@@ -3,23 +3,11 @@ import logging
 import re
 from pipeline.config import Config
 from pipeline.llm import LLMClient
+from pipeline.prompts import load_prompt
 
 logger = logging.getLogger(__name__)
 
-SYSTEM = "You are a systematic review assistant. Output ONLY valid JSON, no explanation."
-
-PROMPT_TEMPLATE = """You are screening papers for a systematic literature review on the domain: "{domain}"
-
-Paper to screen:
-Title: {title}
-Abstract: {abstract}
-
-Decide whether to INCLUDE or EXCLUDE this paper.
-- INCLUDE if: directly relevant to the domain, empirical/theoretical contribution
-- EXCLUDE if: tangentially related, off-topic, no abstract
-
-Output ONLY this JSON (no markdown):
-{{"decision": "include" or "exclude", "reason": "one sentence explanation"}}"""
+_SYSTEM, _PROMPT_TEMPLATE = load_prompt("s3_screen")
 
 
 def _parse_screening_response(raw: str) -> dict:
@@ -32,12 +20,12 @@ def _parse_screening_response(raw: str) -> dict:
 def screen_papers(papers: list[dict], domain: str, llm: LLMClient, config: Config) -> list[dict]:
     results = []
     for paper in papers:
-        prompt = PROMPT_TEMPLATE.format(
+        prompt = _PROMPT_TEMPLATE.format(
             domain=domain,
             title=paper.get("title", ""),
             abstract=paper.get("abstract", "")
         )
-        raw = llm.complete(prompt, system=SYSTEM)
+        raw = llm.complete(prompt, system=_SYSTEM)
         parsed = _parse_screening_response(raw)
         results.append({
             "paper_id": paper["paper_id"],

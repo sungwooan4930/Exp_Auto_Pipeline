@@ -1,0 +1,17 @@
+[
+  {
+    "gap_id": "gap_001",
+    "gap": "Multimodal context in LLM planning has not been systematically studied.",
+    "evidence_papers": ["ss_001", "ss_002"]
+  },
+  {
+    "gap_id": "gap_002",
+    "gap": "Long-horizon task planning with memory retrieval lacks benchmark evaluation.",
+    "evidence_papers": ["ss_002"]
+  },
+  {
+    "gap_id": "gap_003",
+    "gap": "Robustness of LLM agents under adversarial instruction injection is underexplored.",
+    "evidence_papers": ["ss_001"]
+  }
+]

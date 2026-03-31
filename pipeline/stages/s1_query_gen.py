@@ -2,22 +2,14 @@ import json
 import re
 from pipeline.config import Config
 from pipeline.llm import LLMClient
+from pipeline.prompts import load_prompt
 
-SYSTEM = "You are a research assistant. Output ONLY valid JSON arrays, no explanation."
-
-PROMPT_TEMPLATE = """Generate {n_queries} diverse academic search queries for the research domain: "{domain}"
-
-Rules:
-- Each query should target a different angle (methods, benchmarks, applications, limitations)
-- Queries should be suitable for Semantic Scholar and arXiv search
-- Output ONLY a JSON array of strings, e.g. ["query1", "query2", ...]
-
-Domain: {domain}"""
+_SYSTEM, _PROMPT_TEMPLATE = load_prompt("s1_query_gen")
 
 
 def generate_queries(domain: str, llm: LLMClient, config: Config) -> dict:
-    prompt = PROMPT_TEMPLATE.format(domain=domain, n_queries=7)
-    raw = llm.complete(prompt, system=SYSTEM)
+    prompt = _PROMPT_TEMPLATE.format(domain=domain, n_queries=7)
+    raw = llm.complete(prompt, system=_SYSTEM)
     # JSON 배열 추출 (LLM이 마크다운 코드블록으로 감쌀 수 있음)
     match = re.search(r'\[.*\]', raw, re.DOTALL)
     if match:

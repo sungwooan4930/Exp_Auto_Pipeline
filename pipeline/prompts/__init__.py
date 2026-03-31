@@ -35,9 +35,9 @@ def load_prompt(name: str, _base: Path | None = None) -> tuple[str, str]:
                 sections[current].append(line)
 
     if "system" not in sections:
-        raise ValueError(f"{name}.md: ## System 섹션 없음")
+        raise ValueError(f"{name}.md: ## System section missing")
     if "prompt" not in sections:
-        raise ValueError(f"{name}.md: ## Prompt 섹션 없음")
+        raise ValueError(f"{name}.md: ## Prompt section missing")
 
     system = "\n".join(sections["system"]).strip()
     template = "\n".join(sections["prompt"]).strip()

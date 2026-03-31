@@ -1,0 +1,26 @@
+[
+  {
+    "hypothesis_id": "h_001",
+    "hypothesis": "Providing multimodal context improves LLM planning accuracy.",
+    "independent_var": "Multimodal context (text + image)",
+    "dependent_var": "LLM planning accuracy (task completion rate)",
+    "expected_relation": "positive correlation",
+    "novelty_score": 0.82
+  },
+  {
+    "hypothesis_id": "h_002",
+    "hypothesis": "External memory retrieval increases long-horizon task success in LLM agents.",
+    "independent_var": "External memory retrieval module",
+    "dependent_var": "Long-horizon task success rate",
+    "expected_relation": "positive correlation",
+    "novelty_score": 0.75
+  },
+  {
+    "hypothesis_id": "h_003",
+    "hypothesis": "Adversarial instruction injection reduces LLM agent task completion.",
+    "independent_var": "Adversarial instruction injection",
+    "dependent_var": "Task completion rate",
+    "expected_relation": "negative correlation",
+    "novelty_score": 0.88
+  }
+]

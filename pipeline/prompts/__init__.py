@@ -29,11 +29,22 @@ def load_prompt(name: str, _base: Path | None = None) -> tuple[str, str]:
             current = "prompt"
             sections[current] = []
         elif current is not None:
-            sections[current].append(line)
+            if line.startswith("## "):
+                current = None  # unknown heading: stop accumulating
+            else:
+                sections[current].append(line)
 
     if "system" not in sections:
         raise ValueError(f"{name}.md: ## System 섹션 없음")
     if "prompt" not in sections:
         raise ValueError(f"{name}.md: ## Prompt 섹션 없음")
 
-    return "\n".join(sections["system"]).strip(), "\n".join(sections["prompt"]).strip()
+    system = "\n".join(sections["system"]).strip()
+    template = "\n".join(sections["prompt"]).strip()
+
+    if not system:
+        raise ValueError(f"{name}.md: ## System section is empty")
+    if not template:
+        raise ValueError(f"{name}.md: ## Prompt section is empty")
+
+    return system, template

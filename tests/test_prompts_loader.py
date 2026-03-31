@@ -62,3 +62,27 @@ Generate {n_queries} queries for {domain}.
     _, template = load_prompt("placeholders", _base=base)
     assert "{n_queries}" in template
     assert "{domain}" in template
+
+
+def test_load_prompt_empty_system_raises(tmp_path):
+    """## System 섹션이 비어 있으면 ValueError."""
+    base = _write_md(tmp_path, "empty_system", """\
+## System
+
+## Prompt
+Hello {domain}.
+""")
+    with pytest.raises(ValueError, match="empty"):
+        load_prompt("empty_system", _base=base)
+
+
+def test_load_prompt_empty_prompt_raises(tmp_path):
+    """## Prompt 섹션이 비어 있으면 ValueError."""
+    base = _write_md(tmp_path, "empty_prompt", """\
+## System
+You are a test assistant.
+
+## Prompt
+""")
+    with pytest.raises(ValueError, match="empty"):
+        load_prompt("empty_prompt", _base=base)

@@ -1,0 +1,29 @@
+[
+  {
+    "paper_id": "ss_001",
+    "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+    "abstract": "We explore the use of LLMs to generate reasoning traces and task-specific actions in an interleaved manner.",
+    "authors": ["Yao, Shunyu", "Zhao, Jeffrey"],
+    "year": 2023,
+    "doi": "10.48550/arXiv.2210.03629",
+    "source": "semantic_scholar"
+  },
+  {
+    "paper_id": "ss_002",
+    "title": "Tree of Thoughts: Deliberate Problem Solving with Large Language Models",
+    "abstract": "We introduce a framework for LLM inference that allows deliberate decision making.",
+    "authors": ["Yao, Shunyu"],
+    "year": 2023,
+    "doi": "10.48550/arXiv.2305.10601",
+    "source": "semantic_scholar"
+  },
+  {
+    "paper_id": "ax_001",
+    "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+    "abstract": "We explore the use of LLMs to generate reasoning traces and task-specific actions in an interleaved manner.",
+    "authors": ["Yao, Shunyu"],
+    "year": 2023,
+    "doi": "10.48550/arXiv.2210.03629",
+    "source": "arxiv"
+  }
+]

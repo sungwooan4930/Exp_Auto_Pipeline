@@ -39,3 +39,31 @@ def test_claude_complete_retries_on_failure():
         client = ClaudeClient(config)
         result = client.complete("hello")
     assert result == "ok"
+
+
+def test_openai_complete_returns_text():
+    config = Config(provider="openai")
+    with patch("openai.OpenAI") as mock_openai:
+        mock_choice = MagicMock()
+        mock_choice.message.content = "openai response"
+        mock_response = MagicMock()
+        mock_response.choices = [mock_choice]
+        mock_openai.return_value.chat.completions.create.return_value = mock_response
+        client = OpenAIClient(config)
+        result = client.complete("hello")
+    assert result == "openai response"
+
+
+def test_openai_complete_retries_on_failure():
+    config = Config(provider="openai", api_retry_count=2, api_retry_backoff=0.0)
+    with patch("openai.OpenAI") as mock_openai:
+        mock_choice = MagicMock()
+        mock_choice.message.content = "ok"
+        mock_response = MagicMock()
+        mock_response.choices = [mock_choice]
+        mock_openai.return_value.chat.completions.create.side_effect = [
+            Exception("timeout"), mock_response
+        ]
+        client = OpenAIClient(config)
+        result = client.complete("hello")
+    assert result == "ok"

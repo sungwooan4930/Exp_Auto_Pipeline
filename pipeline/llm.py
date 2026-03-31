@@ -1,3 +1,4 @@
+import logging
 import os
 import time
 from abc import ABC, abstractmethod
@@ -30,6 +31,9 @@ class ClaudeClient(LLMClient):
             except Exception as e:
                 if attempt == self._retry_count - 1:
                     raise
+                logging.getLogger(__name__).warning(
+                    f"LLM call failed (attempt {attempt + 1}/{self._retry_count}): {e}. Retrying..."
+                )
                 time.sleep(self._backoff * (2 ** attempt))
 
 
@@ -55,6 +59,9 @@ class OpenAIClient(LLMClient):
             except Exception as e:
                 if attempt == self._retry_count - 1:
                     raise
+                logging.getLogger(__name__).warning(
+                    f"LLM call failed (attempt {attempt + 1}/{self._retry_count}): {e}. Retrying..."
+                )
                 time.sleep(self._backoff * (2 ** attempt))
 
 

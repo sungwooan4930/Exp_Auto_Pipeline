@@ -3,38 +3,11 @@ import logging
 import re
 from pipeline.config import Config
 from pipeline.llm import LLMClient
+from pipeline.prompts import load_prompt
 
 logger = logging.getLogger(__name__)
 
-SYSTEM = "You are a research hypothesis generator. Output ONLY valid JSON arrays, no explanation."
-
-PROMPT_TEMPLATE = """Based on the following research gaps and supporting papers, generate structured research hypotheses.
-
-Research Gaps:
-{gaps_text}
-
-Supporting Paper Abstracts:
-{papers_text}
-
-Generate at least {min_hypotheses} hypotheses. For each:
-- State the hypothesis clearly (if X then Y format)
-- Identify the independent variable (what you manipulate)
-- Identify the dependent variable (what you measure)
-- State expected relationship direction
-- Estimate novelty score (0.0–1.0) vs existing literature
-
-Output ONLY a JSON array (no markdown):
-[
-  {{
-    "hypothesis_id": "h_001",
-    "hypothesis": "...",
-    "independent_var": "...",
-    "dependent_var": "...",
-    "expected_relation": "positive correlation" or "negative correlation" or "no effect",
-    "novelty_score": 0.0
-  }},
-  ...
-]"""
+_SYSTEM, _PROMPT_TEMPLATE = load_prompt("s5_hypothesis")
 
 
 def generate_hypotheses(
@@ -51,12 +24,12 @@ def generate_hypotheses(
         f"[{p['paper_id']}] {p['title']}: {p['abstract'][:300]}"
         for p in included[:10]  # token saving
     )
-    prompt = PROMPT_TEMPLATE.format(
+    prompt = _PROMPT_TEMPLATE.format(
         gaps_text=gaps_text,
         papers_text=papers_text,
         min_hypotheses=config.min_hypotheses
     )
-    raw = llm.complete(prompt, system=SYSTEM)
+    raw = llm.complete(prompt, system=_SYSTEM)
     match = re.search(r'\[.*\]', raw, re.DOTALL)
     hypotheses = json.loads(match.group() if match else raw)
 

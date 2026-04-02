@@ -41,8 +41,8 @@ def init_state():
     if "log_lines" not in st.session_state:
         st.session_state.log_lines = []
 
-init_state()
 st.set_page_config(page_title="RAP Pipeline", layout="wide")
+init_state()
 st.title("RAP — Research Automation Pipeline")
 
 # ── 사이드바 ───────────────────────────────────────────

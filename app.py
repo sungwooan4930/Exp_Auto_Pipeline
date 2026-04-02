@@ -150,8 +150,13 @@ def run_subprocess(cmd: list[str], from_stage_num: int):
         log_box.code("\n".join(st.session_state.log_lines[-50:]), language="")
 
     proc.wait()
-    if proc.returncode != 0 and current_stage:
-        st.session_state.stage_status[current_stage] = "error"
+    if proc.returncode != 0:
+        if current_stage:
+            st.session_state.stage_status[current_stage] = "error"
+        # Also mark any stage still running/pending as error
+        for s in STAGES:
+            if st.session_state.stage_status[s] in ("running", "pending"):
+                st.session_state.stage_status[s] = "error"
 
 # ── 실행 트리거 ────────────────────────────────────────
 if run_all:

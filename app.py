@@ -93,3 +93,91 @@ def render_stage_cards():
 
 render_stage_cards()
 st.divider()
+
+# ── 실행 로직 ──────────────────────────────────────────
+STAGE_LOG_MARKERS = {
+    "Stage 1:": "s1",
+    "Stage 2:": "s2",
+    "Stage 3:": "s3",
+    "Stage 4:": "s4",
+    "Stage 5:": "s5",
+    "Stage 6:": "s6",
+    "Stage 7:": "s7",
+}
+
+
+def _parse_stage_from_line(line: str) -> str | None:
+    for marker, stage in STAGE_LOG_MARKERS.items():
+        if marker in line:
+            return stage
+    return None
+
+
+def run_subprocess(cmd: list[str], from_stage_num: int):
+    """subprocess 실행, stdout 실시간 파싱 → stage_status + log_lines 업데이트."""
+    st.session_state.log_lines = []
+    for s in STAGES:
+        snum = int(s[1])
+        if snum >= from_stage_num:
+            st.session_state.stage_status[s] = "pending"
+
+    log_box = st.empty()
+    proc = subprocess.Popen(
+        cmd,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+    )
+
+    current_stage = None
+    for line in proc.stdout:
+        line = line.rstrip()
+        st.session_state.log_lines.append(line)
+
+        detected = _parse_stage_from_line(line)
+        if detected:
+            if current_stage:
+                st.session_state.stage_status[current_stage] = "done"
+            current_stage = detected
+            st.session_state.stage_status[current_stage] = "running"
+
+        if "Pipeline complete." in line:
+            if current_stage:
+                st.session_state.stage_status[current_stage] = "done"
+
+        log_box.code("\n".join(st.session_state.log_lines[-50:]), language="")
+
+    proc.wait()
+    if proc.returncode != 0 and current_stage:
+        st.session_state.stage_status[current_stage] = "error"
+
+# ── 실행 트리거 ────────────────────────────────────────
+if run_all:
+    if not st.session_state.get("domain", "").strip():
+        st.sidebar.error("도메인을 입력하세요.")
+    else:
+        st.session_state.stage_status = {s: "pending" for s in STAGES}
+        cmd = [sys.executable, "run_pipeline.py", "--domain", st.session_state.domain.strip()]
+        run_subprocess(cmd, from_stage_num=1)
+        # 완료 후 가장 최신 outputs 폴더를 run_id로 설정
+        outputs_dir = Path(__file__).parent / "outputs"
+        if outputs_dir.exists():
+            runs = sorted([d.name for d in outputs_dir.iterdir() if d.is_dir()])
+            if runs:
+                st.session_state.run_id = runs[-1]
+        st.rerun()
+
+for stage, clicked in stage_buttons.items():
+    if clicked:
+        stage_num = int(stage[1])
+        run_dir = Path(__file__).parent / "outputs" / selected_run
+        cmd = [
+            sys.executable, "run_stage.py",
+            "--stage", str(stage_num),
+            "--input", str(run_dir),
+        ]
+        run_subprocess(cmd, from_stage_num=stage_num)
+        st.session_state.run_id = selected_run
+        st.rerun()

@@ -44,3 +44,39 @@ def init_state():
 init_state()
 st.set_page_config(page_title="RAP Pipeline", layout="wide")
 st.title("RAP — Research Automation Pipeline")
+
+# ── 사이드바 ───────────────────────────────────────────
+with st.sidebar:
+    st.header("⚙️ 실행 설정")
+
+    domain = st.text_input("연구 도메인", placeholder="예: LLM-based autonomous agents")
+
+    run_all = st.button("▶ 전체 실행", type="primary", use_container_width=True)
+
+    st.divider()
+    st.subheader("단계별 재실행")
+    st.caption("기존 실행 폴더를 선택 후 단계를 클릭하세요.")
+
+    # 이전 실행 목록
+    outputs_dir = Path("outputs")
+    existing_runs = sorted(
+        [d.name for d in outputs_dir.iterdir() if d.is_dir()],
+        reverse=True,
+    ) if outputs_dir.exists() else []
+
+    selected_run = st.selectbox(
+        "실행 폴더 선택",
+        options=["(새 실행)"] + existing_runs,
+        index=0,
+    )
+
+    # 단계별 버튼 (3열 배치)
+    stage_cols = st.columns(3)
+    stage_buttons = {}
+    for i, stage in enumerate(STAGES):
+        with stage_cols[i % 3]:
+            stage_buttons[stage] = st.button(
+                STAGE_LABELS[stage].split(" ")[0],  # "S1", "S2", ...
+                use_container_width=True,
+                disabled=(selected_run == "(새 실행)"),
+            )

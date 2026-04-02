@@ -119,6 +119,10 @@ class ClaudeCLIClient(LLMClient):
         if system:
             cmd += ["--system-prompt", system]
 
+        # ANTHROPIC_API_KEY가 환경에 있으면 claude CLI가 이를 API 키로 인식해 실패
+        # → 해당 변수를 제거하고 CLI 자체 OAuth 인증을 사용하도록 함
+        env = {k: v for k, v in os.environ.items() if k != "ANTHROPIC_API_KEY"}
+
         for attempt in range(self._retry_count):
             try:
                 result = subprocess.run(
@@ -129,9 +133,11 @@ class ClaudeCLIClient(LLMClient):
                     errors="replace",
                     timeout=300,
                     shell=True,  # Windows에서 .cmd 파일 실행을 위해 필요
+                    env=env,
                 )
                 if result.returncode != 0:
-                    raise RuntimeError(result.stderr.strip() or f"exit code {result.returncode}")
+                    detail = result.stderr.strip() or result.stdout.strip() or f"exit code {result.returncode}"
+                    raise RuntimeError(detail)
                 return result.stdout.strip()
             except Exception as e:
                 if attempt == self._retry_count - 1:

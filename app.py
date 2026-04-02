@@ -49,7 +49,7 @@ st.title("RAP — Research Automation Pipeline")
 with st.sidebar:
     st.header("⚙️ 실행 설정")
 
-    domain = st.text_input("연구 도메인", placeholder="예: LLM-based autonomous agents")
+    domain = st.text_input("연구 도메인", key="domain", placeholder="예: LLM-based autonomous agents")
 
     run_all = st.button("▶ 전체 실행", type="primary", use_container_width=True)
 
@@ -58,7 +58,7 @@ with st.sidebar:
     st.caption("기존 실행 폴더를 선택 후 단계를 클릭하세요.")
 
     # 이전 실행 목록
-    outputs_dir = Path("outputs")
+    outputs_dir = Path(__file__).parent / "outputs"
     existing_runs = sorted(
         [d.name for d in outputs_dir.iterdir() if d.is_dir()],
         reverse=True,

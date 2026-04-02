@@ -197,7 +197,7 @@ def render_outputs(run_dir: Path):
         with st.expander("S1 — search_queries.json", expanded=False):
             data = json.loads(f.read_text(encoding="utf-8"))
             st.json(data)
-            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="search_queries.json")
+            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="search_queries.json", key="dl_s1")
 
     # S2: collected_papers.bib
     f = run_dir / "collected_papers.bib"
@@ -205,15 +205,18 @@ def render_outputs(run_dir: Path):
         with st.expander("S2 — collected_papers.bib", expanded=False):
             text = f.read_text(encoding="utf-8")
             st.text_area("BibTeX", text, height=200, disabled=True)
-            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="collected_papers.bib")
+            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="collected_papers.bib", key="dl_s2")
 
     # S3: screening_results.json
     f = run_dir / "screening_results.json"
     if f.exists():
         with st.expander("S3 — screening_results.json", expanded=False):
             data = json.loads(f.read_text(encoding="utf-8"))
-            st.dataframe(data, use_container_width=True)
-            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="screening_results.json")
+            try:
+                st.dataframe(data, use_container_width=True)
+            except Exception:
+                st.json(data)
+            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="screening_results.json", key="dl_s3")
 
     # S4: gap_analysis.json
     f = run_dir / "gap_analysis.json"
@@ -221,15 +224,18 @@ def render_outputs(run_dir: Path):
         with st.expander("S4 — gap_analysis.json", expanded=False):
             data = json.loads(f.read_text(encoding="utf-8"))
             st.json(data)
-            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="gap_analysis.json")
+            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="gap_analysis.json", key="dl_s4")
 
     # S5: hypotheses.json
     f = run_dir / "hypotheses.json"
     if f.exists():
         with st.expander("S5 — hypotheses.json", expanded=False):
             data = json.loads(f.read_text(encoding="utf-8"))
-            st.dataframe(data, use_container_width=True)
-            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="hypotheses.json")
+            try:
+                st.dataframe(data, use_container_width=True)
+            except Exception:
+                st.json(data)
+            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="hypotheses.json", key="dl_s5")
 
     # S6: experiment_design.md
     f = run_dir / "experiment_design.md"
@@ -237,7 +243,7 @@ def render_outputs(run_dir: Path):
         with st.expander("S6 — experiment_design.md", expanded=False):
             md_text = f.read_text(encoding="utf-8")
             st.markdown(md_text)
-            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="experiment_design.md")
+            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="experiment_design.md", key="dl_s6")
 
     # S7: weekly_metrics.json
     f = run_dir / "weekly_metrics.json"
@@ -247,10 +253,10 @@ def render_outputs(run_dir: Path):
             cols = st.columns(5)
             cols[0].metric("수집 논문", metrics.get("collected", "-"))
             cols[1].metric("선별 논문", metrics.get("screened", "-"))
-            cols[2].metric("선별율", f"{metrics.get('screen_rate', 0):.0%}")
+            cols[2].metric("선별율", f"{float(metrics.get('screen_rate', 0)):.0%}")
             cols[3].metric("갭 수", metrics.get("gaps", "-"))
             cols[4].metric("가설 수", metrics.get("hypotheses", "-"))
-            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="weekly_metrics.json")
+            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="weekly_metrics.json", key="dl_s7")
 
 # 현재 run_id 결정: 전체 실행 완료 후 또는 이전 실행 선택 시
 active_run_id = st.session_state.run_id

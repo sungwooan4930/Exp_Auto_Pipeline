@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import subprocess
 import time
 from abc import ABC, abstractmethod
 from pathlib import Path
@@ -101,9 +102,54 @@ class OpenAIClient(LLMClient):
                 time.sleep(self._backoff * (2 ** attempt))
 
 
+class ClaudeCLIClient(LLMClient):
+    """claude CLI 서브프로세스를 통해 호출 (Claude 구독 OAuth 사용)."""
+
+    def __init__(self, config: Config):
+        self._model = config.claude_model
+        self._retry_count = config.api_retry_count
+        self._backoff = config.api_retry_backoff
+
+    def complete(self, prompt: str, system: str = "") -> str:
+        cmd = [
+            "claude", "-p", prompt,
+            "--model", self._model,
+            "--no-session-persistence",
+        ]
+        if system:
+            cmd += ["--system-prompt", system]
+
+        for attempt in range(self._retry_count):
+            try:
+                result = subprocess.run(
+                    cmd,
+                    capture_output=True,
+                    text=True,
+                    encoding="utf-8",
+                    errors="replace",
+                    timeout=300,
+                    shell=True,  # Windows에서 .cmd 파일 실행을 위해 필요
+                )
+                if result.returncode != 0:
+                    raise RuntimeError(result.stderr.strip() or f"exit code {result.returncode}")
+                return result.stdout.strip()
+            except Exception as e:
+                if attempt == self._retry_count - 1:
+                    raise
+                logger.warning(
+                    f"CLI call failed (attempt {attempt + 1}/{self._retry_count}): {e}. Retrying..."
+                )
+                time.sleep(self._backoff * (2 ** attempt))
+
+
 def get_client(config: Config | None = None) -> LLMClient:
     if config is None:
         config = Config()
     if config.provider == "openai":
         return OpenAIClient(config)
+    # API 키가 없거나 OAuth 토큰이면 CLI 방식 사용
+    api_key = _resolve_anthropic_api_key()
+    if not api_key or api_key.startswith("sk-ant-oat"):
+        logger.info("Using Claude CLI client (OAuth subscription mode)")
+        return ClaudeCLIClient(config)
     return ClaudeClient(config)

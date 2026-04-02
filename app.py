@@ -186,3 +186,76 @@ for stage, clicked in stage_buttons.items():
         run_subprocess(cmd, from_stage_num=stage_num)
         st.session_state.run_id = selected_run
         st.rerun()
+
+# ── 산출물 표시 ────────────────────────────────────────
+def render_outputs(run_dir: Path):
+    st.subheader("📄 산출물")
+
+    # S1: search_queries.json
+    f = run_dir / "search_queries.json"
+    if f.exists():
+        with st.expander("S1 — search_queries.json", expanded=False):
+            data = json.loads(f.read_text(encoding="utf-8"))
+            st.json(data)
+            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="search_queries.json")
+
+    # S2: collected_papers.bib
+    f = run_dir / "collected_papers.bib"
+    if f.exists():
+        with st.expander("S2 — collected_papers.bib", expanded=False):
+            text = f.read_text(encoding="utf-8")
+            st.text_area("BibTeX", text, height=200, disabled=True)
+            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="collected_papers.bib")
+
+    # S3: screening_results.json
+    f = run_dir / "screening_results.json"
+    if f.exists():
+        with st.expander("S3 — screening_results.json", expanded=False):
+            data = json.loads(f.read_text(encoding="utf-8"))
+            st.dataframe(data, use_container_width=True)
+            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="screening_results.json")
+
+    # S4: gap_analysis.json
+    f = run_dir / "gap_analysis.json"
+    if f.exists():
+        with st.expander("S4 — gap_analysis.json", expanded=False):
+            data = json.loads(f.read_text(encoding="utf-8"))
+            st.json(data)
+            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="gap_analysis.json")
+
+    # S5: hypotheses.json
+    f = run_dir / "hypotheses.json"
+    if f.exists():
+        with st.expander("S5 — hypotheses.json", expanded=False):
+            data = json.loads(f.read_text(encoding="utf-8"))
+            st.dataframe(data, use_container_width=True)
+            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="hypotheses.json")
+
+    # S6: experiment_design.md
+    f = run_dir / "experiment_design.md"
+    if f.exists():
+        with st.expander("S6 — experiment_design.md", expanded=False):
+            md_text = f.read_text(encoding="utf-8")
+            st.markdown(md_text)
+            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="experiment_design.md")
+
+    # S7: weekly_metrics.json
+    f = run_dir / "weekly_metrics.json"
+    if f.exists():
+        with st.expander("S7 — weekly_metrics.json", expanded=True):
+            metrics = json.loads(f.read_text(encoding="utf-8"))
+            cols = st.columns(5)
+            cols[0].metric("수집 논문", metrics.get("collected", "-"))
+            cols[1].metric("선별 논문", metrics.get("screened", "-"))
+            cols[2].metric("선별율", f"{metrics.get('screen_rate', 0):.0%}")
+            cols[3].metric("갭 수", metrics.get("gaps", "-"))
+            cols[4].metric("가설 수", metrics.get("hypotheses", "-"))
+            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="weekly_metrics.json")
+
+# 현재 run_id 결정: 전체 실행 완료 후 또는 이전 실행 선택 시
+active_run_id = st.session_state.run_id
+if selected_run != "(새 실행)":
+    active_run_id = selected_run
+
+if active_run_id:
+    render_outputs(Path(__file__).parent / "outputs" / active_run_id)

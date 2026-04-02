@@ -80,3 +80,16 @@ with st.sidebar:
                 use_container_width=True,
                 disabled=(selected_run == "(새 실행)"),
             )
+
+# ── 메인 영역: 단계 카드 ───────────────────────────────
+def render_stage_cards():
+    cols = st.columns(4)
+    for i, stage in enumerate(STAGES):
+        status = st.session_state.stage_status[stage]
+        icon = STATUS_COLOR[status]
+        label = STAGE_LABELS[stage]
+        with cols[i % 4]:
+            st.metric(label=f"{icon} {label}", value=status)
+
+render_stage_cards()
+st.divider()

@@ -187,6 +187,11 @@ for stage, clicked in stage_buttons.items():
         st.session_state.run_id = selected_run
         st.rerun()
 
+# ── 실행 로그 (rerun 후에도 유지) ─────────────────────────
+if st.session_state.log_lines:
+    with st.expander("📋 실행 로그", expanded=True):
+        st.code("\n".join(st.session_state.log_lines), language="")
+
 # ── 산출물 표시 ────────────────────────────────────────
 def render_outputs(run_dir: Path):
     st.subheader("📄 산출물")

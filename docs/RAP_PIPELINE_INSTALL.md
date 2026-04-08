@@ -115,6 +115,12 @@ They:
 
 Restart Claude Code if it was already open.
 
+Important: after restarting Claude Code, start a new chat session before using `rap-pipeline`.
+
+- Do not rely on an older restored conversation thread.
+- Newly installed or updated plugin skills may not be available inside a previously opened chat.
+- Open a fresh chat, then run `rap-pipeline 시작`.
+
 Inside a project repository that has local RAP files such as:
 
 - `RAP_PROJECT_PROFILE.json`
@@ -194,6 +200,8 @@ bash ./scripts/install_rap_pipeline.sh
 ```
 
 Restart Claude Code after reinstalling the updated plugin files.
+
+After restarting, open a new chat session before testing `rap-pipeline 시작`.
 
 ## Verify Install
 

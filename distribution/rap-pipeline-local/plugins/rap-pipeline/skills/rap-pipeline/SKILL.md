@@ -7,6 +7,23 @@ description: Global entrypoint for the RAP research automation pipeline. Use whe
 
 Use this skill as the single entrypoint for the RAP workflow.
 
+## Missing Project Files Rule
+
+If the current directory does not have `RAP_PROJECT_PROFILE.json`, treat that as a normal bootstrap case, not as a plugin failure.
+
+- Do not speculate that the Claude Code plugin system is unsupported or broken.
+- Do not say the plugin failed to load if this skill is already active.
+- Explain that the current directory is not yet an initialized RAP project.
+- Offer only these two next steps:
+  1. move to an existing RAP project directory
+  2. initialize a new RAP project here from the templates
+
+If local RAP files exist but still contain placeholder values such as `replace_with_project_name`, `replace_with_research_domain`, or other obvious template markers:
+
+- Do not say "project confirmed".
+- Do not summarize the placeholder topic as if it were the real project.
+- Explain that the RAP scaffold exists but still needs real project values.
+
 ## Read First
 
 Read these files when they exist in the current repository:

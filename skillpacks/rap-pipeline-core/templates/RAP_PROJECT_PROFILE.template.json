@@ -1,24 +1,18 @@
 {
-  "project_id": "exp-auto-pipeline",
-  "project_name": "Exp_Auto_Pipeline",
+  "project_id": "replace_with_project_id",
+  "project_name": "replace_with_project_name",
   "pipeline_invocation_name": "rap-pipeline",
   "project_root": ".",
   "topic": {
-    "domain": "Rapid fNIRS decoding",
+    "domain": "replace_with_research_domain",
     "keywords": [
-      "fNIRS decoding",
-      "rapid decoding",
-      "real-time fNIRS",
-      "brain-computer interface",
-      "hemodynamic signal decoding",
-      "low-latency classification",
-      "early time window decoding",
-      "single-trial fNIRS"
+      "replace_with_keyword_1",
+      "replace_with_keyword_2"
     ],
-    "experiment_type": "Workflow evaluation for rapid and low-latency decoding from fNIRS signals"
+    "experiment_type": "replace_with_experiment_type"
   },
   "researcher_preferences": {
-    "preferred_year_start": 2020,
+    "preferred_year_start": 2022,
     "prioritize_human_approval_loops": true,
     "prefer_methodological_detail": true,
     "default_data_mode": "synthetic"
@@ -48,7 +42,7 @@
     "local_source_dir": "claude"
   },
   "notes": [
-    "This repository should be runnable with an installed global rap-pipeline skillpack.",
-    "The local claude directory is treated as the draft source of the core skillpack during development."
+    "Replace all placeholder values before first real run.",
+    "This file defines the local RAP project contract."
   ]
 }

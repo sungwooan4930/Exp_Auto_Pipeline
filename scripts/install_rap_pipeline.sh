@@ -74,3 +74,9 @@ PY
 echo "Installed rap-pipeline into: ${MARKETPLACE_ROOT}"
 echo "Updated settings: ${SETTINGS_PATH}"
 echo "Restart Claude Code if it is already running."
+echo
+echo "Quick start:"
+echo "1. Open a project repository with RAP local files such as RAP_PROJECT_PROFILE.json, run_logging.md, and search_cycle_input.json."
+echo "2. Restart Claude Code if needed."
+echo "3. In Claude Code, type: rap-pipeline 시작"
+echo "4. Choose a stage when Claude asks."

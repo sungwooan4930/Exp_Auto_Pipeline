@@ -239,6 +239,9 @@ def get_client(config: Config | None = None) -> LLMClient:
     
     if provider == "openai":
         return OpenAIClient(config)
+
+    if provider == "claude-cli":
+        return ClaudeCLIClient(config)
     
     if provider == "gemini":
         api_key = os.getenv("GEMINI_API_KEY") or os.getenv("OPENAI_API_KEY")
@@ -247,8 +250,5 @@ def get_client(config: Config | None = None) -> LLMClient:
             return GeminiRESTClient(config, api_key)
         logger.info("No Gemini API key found, falling back to CLI")
         return GeminiCLIClient(config)
-    
-    api_key = _resolve_anthropic_api_key()
-    if not api_key or api_key.startswith("sk-ant-oat"):
-        return ClaudeCLIClient(config)
+
     return ClaudeClient(config)

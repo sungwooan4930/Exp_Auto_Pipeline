@@ -288,3 +288,9 @@
   - reran `claude -p --max-turns 2 --debug-file C:\Users\sungw\Exp_Auto_Pipeline\tmp_claude_rap_debug_third.log "rap-pipeline 시작"`
   - confirmed bootstrap skill `rap-pipeline:rap-pipeline` loaded
   - found no `search_cycle_input.json` access and no `rapid fNIRS decoding` search kickoff in the debug log
+## 2026-04-08 - Restore pipeline test suite
+
+- Fixed prompt-template formatting failures in `pipeline/prompts/s3_screen.md`, `pipeline/prompts/s4_gap.md`, and `pipeline/prompts/s5_hypothesis.md` by escaping JSON examples for `str.format()`.
+- Updated `pipeline/prompts/s6_experiment.md` and `pipeline/stages/s6_experiment.py` so the experiment-design prompt carries explicit hypothesis field names (`hypothesis`, `independent_var`, `dependent_var`, `expected_relation`).
+- Simplified `pipeline.llm.get_client()` so `provider="claude"` returns `ClaudeClient`, while `provider="claude-cli"` explicitly selects `ClaudeCLIClient`.
+- Verification: `pytest -q` now passes fully (`44 passed`).

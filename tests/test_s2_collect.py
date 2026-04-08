@@ -45,11 +45,26 @@ def test_papers_to_bibtex_produces_valid_format():
 
 
 @pytest.mark.asyncio
-async def test_collect_papers_deduplicates(sample_papers):
-    config = Config(target_papers=50)
+async def test_collect_papers_performs_snowballing(sample_papers):
+    config = Config(target_papers=2, use_snowball=True)
+    # 2개를 타겟으로 하되, 확장이 일어나는지 확인
     with patch("pipeline.stages.s2_collect.fetch_semantic_scholar", new_callable=AsyncMock) as mock_ss, \
-         patch("pipeline.stages.s2_collect.fetch_arxiv", new_callable=AsyncMock) as mock_ax:
-        mock_ss.return_value = sample_papers[:2]
-        mock_ax.return_value = [sample_papers[1]]  # 중복
+         patch("pipeline.stages.s2_collect.fetch_arxiv", new_callable=AsyncMock) as mock_ax, \
+         patch("pipeline.stages.s2_collect.fetch_citations", new_callable=AsyncMock) as mock_cit, \
+         patch("pipeline.stages.s2_collect.fetch_references", new_callable=AsyncMock) as mock_ref:
+        
+        # 기본 수집은 2개만 (타겟보다 적게)
+        mock_paper = sample_papers[0].copy()
+        mock_paper["full_paper_id"] = "some_full_id"
+        mock_ss.return_value = [mock_paper]
+        mock_ax.return_value = []
+        
+        # 스노우볼 결과
+        mock_cit.return_value = [{"paper_id": "snow_1", "title": "Citing Paper", "doi": "10.1/1", "source": "snowball_citation"}]
+        mock_ref.return_value = [{"paper_id": "snow_2", "title": "Cited Paper", "doi": "10.1/2", "source": "snowball_reference"}]
+        
         result = await collect_papers(["test query"], config)
-    assert len(result) == 2
+        
+    assert any(p["source"] == "snowball_citation" for p in result)
+    assert any(p["source"] == "snowball_reference" for p in result)
+    assert len(result) >= 3

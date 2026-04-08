@@ -1,0 +1,22 @@
+{
+  "iteration": 1,
+  "request": {
+    "domain": "LLM-based research automation",
+    "keywords": [
+      "literature review automation",
+      "agentic workflow",
+      "human-in-the-loop search"
+    ],
+    "experiment_type": "interactive retrieval evaluation",
+    "research_goals": [
+      "find papers on human feedback loops in literature search",
+      "identify methods suitable for iterative approval workflows"
+    ],
+    "constraints": [
+      "prefer papers from 2022 or later",
+      "include both systems and evaluation papers"
+    ]
+  },
+  "previous_feedback": [],
+  "previous_output_ref": null
+}

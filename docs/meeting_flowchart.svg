@@ -1,0 +1,125 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FBFBFA"/>
+      <stop offset="1" stop-color="#F4F4F2"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="18" flood-color="#111111" flood-opacity="0.08"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M1 1L10 6L1 11" stroke="#44403C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrowSoft" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M1 1L10 6L1 11" stroke="#78716C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <style>
+      .title { font: 700 34px 'Segoe UI', 'Malgun Gothic', sans-serif; fill: #191919; }
+      .subtitle { font: 500 18px 'Segoe UI', 'Malgun Gothic', sans-serif; fill: #6B7280; }
+      .stage-title { font: 700 22px 'Segoe UI', 'Malgun Gothic', sans-serif; fill: #1F2937; }
+      .stage-note { font: 500 14px 'Segoe UI', 'Malgun Gothic', sans-serif; fill: #78716C; }
+      .card-title { font: 700 20px 'Segoe UI', 'Malgun Gothic', sans-serif; fill: #1C1917; }
+      .card-body { font: 500 14px 'Segoe UI', 'Malgun Gothic', sans-serif; fill: #6B7280; }
+      .tiny { font: 700 12px 'Segoe UI', 'Malgun Gothic', sans-serif; fill: #A16207; letter-spacing: 0.12em; }
+      .edge-label { font: 600 15px 'Segoe UI', 'Malgun Gothic', sans-serif; fill: #57534E; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect x="36" y="34" width="1528" height="832" rx="32" fill="#FFFFFF" stroke="#E7E5E4"/>
+
+  <text x="80" y="98" class="title">Research Automation Discussion Flow</text>
+  <text x="80" y="130" class="subtitle">회의 화이트보드 초안을 발표용 구조도로 재구성한 버전</text>
+
+  <g filter="url(#shadow)">
+    <rect x="76" y="180" width="330" height="570" rx="30" fill="#FFF9DB" stroke="#F2D45C" stroke-width="2.4"/>
+    <rect x="450" y="180" width="660" height="570" rx="30" fill="#F7F7F5" stroke="#E7E5E4" stroke-width="2"/>
+    <rect x="1154" y="180" width="370" height="570" rx="30" fill="#F7F7F5" stroke="#E7E5E4" stroke-width="2"/>
+  </g>
+
+  <text x="104" y="222" class="tiny">STAGE 1</text>
+  <text x="104" y="252" class="stage-title">Input</text>
+  <text x="104" y="278" class="stage-note">탐색 조건과 실험 방향을 정의</text>
+
+  <text x="478" y="222" class="tiny">STAGE 2</text>
+  <text x="478" y="252" class="stage-title">논문 서치 ↔ Gap 확인</text>
+  <text x="478" y="278" class="stage-note">논문 탐색과 사용자 피드백, 가설 후보 정리</text>
+
+  <text x="1182" y="222" class="tiny">FOLLOW-UP</text>
+  <text x="1182" y="252" class="stage-title">실험 설계 · 검증 · 작성</text>
+  <text x="1182" y="278" class="stage-note">후속 실행과 리뷰 결과 정리</text>
+
+  <g filter="url(#shadow)">
+    <rect x="110" y="330" width="258" height="94" rx="24" fill="#FFFFFF" stroke="#E7C94D" stroke-width="2"/>
+    <rect x="110" y="450" width="258" height="94" rx="24" fill="#FFFFFF" stroke="#E7C94D" stroke-width="2"/>
+    <rect x="110" y="570" width="258" height="94" rx="24" fill="#FFFFFF" stroke="#E7C94D" stroke-width="2"/>
+
+    <rect x="494" y="312" width="252" height="112" rx="24" fill="#FFFFFF" stroke="#E7E5E4" stroke-width="2"/>
+    <rect x="806" y="330" width="244" height="76" rx="38" fill="#FFFFFF" stroke="#E7E5E4" stroke-width="2"/>
+    <rect x="494" y="500" width="556" height="126" rx="24" fill="#FFFFFF" stroke="#E7E5E4" stroke-width="2"/>
+
+    <rect x="1190" y="330" width="298" height="110" rx="24" fill="#FFFFFF" stroke="#E7E5E4" stroke-width="2"/>
+    <rect x="1190" y="486" width="298" height="120" rx="24" fill="#FFFFFF" stroke="#E7E5E4" stroke-width="2"/>
+    <rect x="1190" y="646" width="298" height="76" rx="24" fill="#FFFFFF" stroke="#E7E5E4" stroke-width="2"/>
+  </g>
+
+  <text x="142" y="368" class="card-title">Domain</text>
+  <text x="142" y="393" class="card-body">연구 분야와 문제 영역 정의</text>
+
+  <text x="142" y="488" class="card-title">Keywords</text>
+  <text x="142" y="513" class="card-body">검색에 사용할 핵심 용어 구성</text>
+
+  <text x="142" y="608" class="card-title">Exp. Type</text>
+  <text x="142" y="633" class="card-body">실험 유형과 평가 방향 지정</text>
+
+  <text x="526" y="356" class="card-title">논문 Search</text>
+  <text x="526" y="384" class="card-body">검색 전략 생성</text>
+  <text x="526" y="406" class="card-body">관련 논문 탐색 및 후보 수집</text>
+
+  <text x="882" y="375" class="card-title" text-anchor="middle">User</text>
+
+  <text x="526" y="548" class="card-title">Gap 확인 / H1, H2, ...</text>
+  <text x="526" y="576" class="card-body">문헌 공백 식별, 가설 초안 정리</text>
+  <text x="526" y="598" class="card-body">리뷰를 반영하며 방향 재조정</text>
+
+  <text x="1222" y="372" class="card-title">Exp. Design</text>
+  <text x="1222" y="400" class="card-body">가설을 검증 가능한 실험</text>
+  <text x="1222" y="422" class="card-body">프로토콜로 구체화</text>
+
+  <text x="1222" y="530" class="card-title">Validation</text>
+  <text x="1222" y="558" class="card-body">Samples / Mocks 기반 검증</text>
+  <text x="1222" y="580" class="card-body">실패 시 Gap 단계로 피드백</text>
+
+  <text x="1222" y="692" class="card-title">Writing</text>
+  <text x="1222" y="716" class="card-body">Review 결과 문서화</text>
+
+  <line x1="368" y1="377" x2="494" y2="368" stroke="#44403C" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="368" y1="497" x2="494" y2="368" stroke="#44403C" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="368" y1="617" x2="494" y2="368" stroke="#44403C" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <line x1="746" y1="368" x2="806" y2="368" stroke="#44403C" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="806" y1="392" x2="746" y2="392" stroke="#44403C" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <line x1="620" y1="424" x2="620" y2="500" stroke="#44403C" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="928" y1="406" x2="928" y2="500" stroke="#44403C" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <line x1="1050" y1="563" x2="1190" y2="385" stroke="#44403C" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="772" y1="626" x2="1190" y2="546" stroke="#44403C" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="1050" y1="563" x2="1190" y2="684" stroke="#78716C" stroke-width="2.5" marker-end="url(#arrowSoft)"/>
+
+  <path d="M1339 440V486" stroke="#44403C" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <path d="M1190 570C1140 570 1110 570 1086 570C1086 570 1086 728 1086 728C1086 728 690 728 690 728C690 728 690 626 690 626"
+        stroke="#F2C94C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+
+  <text x="1128" y="554" class="edge-label">Exp</text>
+  <text x="1092" y="668" class="edge-label">Review</text>
+  <text x="1118" y="707" class="edge-label">Fail</text>
+
+  <circle cx="1160" cy="524" r="8" fill="#FFFFFF" stroke="#D6D3D1" stroke-width="2"/>
+  <circle cx="1160" cy="560" r="8" fill="#FFFFFF" stroke="#D6D3D1" stroke-width="2"/>
+  <text x="1140" y="528" class="card-body" text-anchor="end">Samples</text>
+  <text x="1140" y="564" class="card-body" text-anchor="end">Mocks</text>
+  <line x1="1168" y1="524" x2="1190" y2="524" stroke="#78716C" stroke-width="2.5" marker-end="url(#arrowSoft)"/>
+  <line x1="1168" y1="560" x2="1190" y2="560" stroke="#78716C" stroke-width="2.5" marker-end="url(#arrowSoft)"/>
+</svg>

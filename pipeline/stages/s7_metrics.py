@@ -18,6 +18,12 @@ def compute_metrics(output_dir: Path, domain: str) -> dict:
         screening = json.loads(screening_path.read_text())
         screened = sum(1 for p in screening if p.get("decision") == "include")
 
+    json_path = output_dir / "collected_papers.json"
+    snowball_count = 0
+    if json_path.exists():
+        papers_data = json.loads(json_path.read_text())
+        snowball_count = sum(1 for p in papers_data if p.get("source", "").startswith("snowball_"))
+
     screen_rate = round(screened / collected, 4) if collected > 0 else 0.0
 
     gap_path = output_dir / "gap_analysis.json"
@@ -39,6 +45,7 @@ def compute_metrics(output_dir: Path, domain: str) -> dict:
         "collected": collected,
         "screened": screened,
         "screen_rate": screen_rate,
+        "snowball_count": snowball_count,
         "gaps": gaps,
         "hypotheses": hypotheses,
     }

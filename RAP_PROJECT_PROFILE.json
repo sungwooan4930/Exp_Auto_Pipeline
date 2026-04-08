@@ -1,0 +1,56 @@
+{
+  "project_id": "exp-auto-pipeline",
+  "project_name": "Exp_Auto_Pipeline",
+  "pipeline_invocation_name": "rap-pipeline",
+  "project_root": ".",
+  "topic": {
+    "domain": "Rapid fNIRS decoding",
+    "keywords": [
+      "fNIRS decoding",
+      "rapid decoding",
+      "real-time fNIRS",
+      "brain-computer interface",
+      "hemodynamic signal decoding",
+      "low-latency classification",
+      "early time window decoding",
+      "single-trial fNIRS"
+    ],
+    "experiment_type": "Workflow evaluation for rapid and low-latency decoding from fNIRS signals"
+  },
+  "researcher_preferences": {
+    "preferred_year_start": 2020,
+    "prioritize_human_approval_loops": true,
+    "prefer_methodological_detail": true,
+    "default_data_mode": "synthetic"
+  },
+  "artifact_paths": {
+    "run_log": "run_logging.md",
+    "search_input": "search_cycle_input.json",
+    "outputs_dir": "outputs",
+    "docs_dir": "docs"
+  },
+  "json_contract": {
+    "search_cycle_input": "search_cycle_input.json",
+    "search_cycle_output": "search_cycle_output.json",
+    "search_feedback": "search_feedback.json",
+    "gap_hypothesis_input": "gap_hypothesis_input.json",
+    "gap_hypothesis_output": "gap_hypothesis_output.json",
+    "gap_hypothesis_feedback": "gap_hypothesis_feedback.json",
+    "experiment_design_input": "experiment_design_input.json",
+    "experiment_design_output": "experiment_design_output.json",
+    "simulation_input": "simulation_input.json",
+    "simulation_output": "simulation_output.json",
+    "weekly_metrics": "weekly_metrics.json"
+  },
+  "core_skillpack": {
+    "name": "rap-pipeline",
+    "distribution_mode": "global_or_marketplace",
+    "local_source_dir": "skillpacks/rap-pipeline-core",
+    "manifest": "skillpacks/rap-pipeline-core/manifest.json"
+  },
+  "notes": [
+    "This repository should be runnable with an installed global rap-pipeline skillpack.",
+    "The local skillpacks/rap-pipeline-core directory is treated as the draft source of the core skillpack during development.",
+    "The local claude directory remains as a working copy during the transition."
+  ]
+}

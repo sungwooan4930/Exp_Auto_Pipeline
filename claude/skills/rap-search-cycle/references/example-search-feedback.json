@@ -1,0 +1,16 @@
+{
+  "iteration": 1,
+  "feedback_items": [
+    {
+      "type": "narrow",
+      "target": "topic",
+      "comment": "Focus more on researcher-in-the-loop workflows than generic RAG systems."
+    },
+    {
+      "type": "prioritize",
+      "target": "papers",
+      "comment": "Prioritize papers with explicit iterative search or approval loops."
+    }
+  ],
+  "approval_status": "revise"
+}

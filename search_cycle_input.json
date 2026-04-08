@@ -1,0 +1,34 @@
+{
+  "iteration": 1,
+  "request": {
+    "domain": "Rapid fNIRS decoding",
+    "keywords": [
+      "fNIRS decoding",
+      "rapid decoding",
+      "real-time fNIRS",
+      "brain-computer interface",
+      "hemodynamic signal decoding",
+      "low-latency classification",
+      "early time window decoding",
+      "single-trial fNIRS"
+    ],
+    "experiment_type": "Workflow evaluation for rapid and low-latency decoding from fNIRS signals",
+    "research_goals": [
+      "Find papers on rapid or early-stage decoding from fNIRS signals.",
+      "Find papers on real-time or low-latency fNIRS classification methods.",
+      "Find papers on single-trial fNIRS decoding and brain-computer interface use cases.",
+      "Identify methods, features, and evaluation settings suitable for fast fNIRS decoding pipelines."
+    ],
+    "constraints": [
+      "Prefer papers published from 2020 onward.",
+      "Prioritize papers that explicitly evaluate decoding speed, latency, or early prediction windows.",
+      "Include both methodological papers and application papers in BCI or neuroergonomics contexts.",
+      "Prefer papers with enough experimental detail to inform gap analysis and experiment design."
+    ]
+  },
+  "previous_feedback": [],
+  "previous_output_ref": null,
+  "project_profile_ref": "RAP_PROJECT_PROFILE.json",
+  "status": "ready",
+  "notes": "Initial real-run draft for the rapid fNIRS decoding topic."
+}

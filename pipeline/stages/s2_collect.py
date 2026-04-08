@@ -11,27 +11,88 @@ SS_API = "https://api.semanticscholar.org/graph/v1/paper/search"
 ARXIV_API = "https://export.arxiv.org/api/query"
 
 
-async def fetch_semantic_scholar(query: str, limit: int = 25) -> list[dict]:
+async def fetch_semantic_scholar(query: str, limit: int = 25, year_range: str = None) -> list[dict]:
     params = {
         "query": query,
         "limit": limit,
-        "fields": "paperId,title,abstract,authors,year,externalIds"
+        "fields": "paperId,title,abstract,authors,year,externalIds,citationCount,referenceCount"
     }
+    if year_range:
+        params["year"] = year_range
+        
     async with httpx.AsyncClient(timeout=30) as client:
         resp = await client.get(SS_API, params=params)
         resp.raise_for_status()
         data = resp.json()
     papers = []
     for p in data.get("data", []):
+        if not p: continue
         doi = (p.get("externalIds") or {}).get("DOI", "")
         papers.append({
             "paper_id": f"ss_{p.get('paperId', '')[:8]}",
+            "full_paper_id": p.get("paperId"),
             "title": p.get("title", ""),
             "abstract": p.get("abstract", ""),
             "authors": [a["name"] for a in (p.get("authors") or [])],
             "year": p.get("year", 0),
             "doi": doi,
+            "citation_count": p.get("citationCount", 0),
+            "reference_count": p.get("referenceCount", 0),
             "source": "semantic_scholar"
+        })
+    return papers
+
+
+async def fetch_citations(paper_id: str, limit: int = 10) -> list[dict]:
+    """해당 논문을 인용한 논문들을 가져옵니다 (Forward Snowballing)"""
+    url = f"https://api.semanticscholar.org/graph/v1/paper/{paper_id}/citations"
+    params = {"limit": limit, "fields": "citingPaper.paperId,citingPaper.title,citingPaper.abstract,citingPaper.authors,citingPaper.year,citingPaper.externalIds"}
+    async with httpx.AsyncClient(timeout=30) as client:
+        resp = await client.get(url, params=params)
+        if resp.status_code != 200: return []
+        data = resp.json()
+    
+    papers = []
+    for item in data.get("data", []):
+        p = item.get("citingPaper")
+        if not p: continue
+        doi = (p.get("externalIds") or {}).get("DOI", "")
+        papers.append({
+            "paper_id": f"ss_{p.get('paperId', '')[:8]}",
+            "full_paper_id": p.get("paperId"),
+            "title": p.get("title", ""),
+            "abstract": p.get("abstract", ""),
+            "authors": [a["name"] for a in (p.get("authors") or [])],
+            "year": p.get("year", 0),
+            "doi": doi,
+            "source": "snowball_citation"
+        })
+    return papers
+
+
+async def fetch_references(paper_id: str, limit: int = 10) -> list[dict]:
+    """해당 논문이 인용한 논문들을 가져옵니다 (Backward Snowballing)"""
+    url = f"https://api.semanticscholar.org/graph/v1/paper/{paper_id}/references"
+    params = {"limit": limit, "fields": "citedPaper.paperId,citedPaper.title,citedPaper.abstract,citedPaper.authors,citedPaper.year,citedPaper.externalIds"}
+    async with httpx.AsyncClient(timeout=30) as client:
+        resp = await client.get(url, params=params)
+        if resp.status_code != 200: return []
+        data = resp.json()
+        
+    papers = []
+    for item in data.get("data", []):
+        p = item.get("citedPaper")
+        if not p: continue
+        doi = (p.get("externalIds") or {}).get("DOI", "")
+        papers.append({
+            "paper_id": f"ss_{p.get('paperId', '')[:8]}",
+            "full_paper_id": p.get("paperId"),
+            "title": p.get("title", ""),
+            "abstract": p.get("abstract", ""),
+            "authors": [a["name"] for a in (p.get("authors") or [])],
+            "year": p.get("year", 0),
+            "doi": doi,
+            "source": "snowball_reference"
         })
     return papers
 
@@ -97,10 +158,12 @@ def papers_to_bibtex(papers: list[dict]) -> str:
 
 async def collect_papers(queries: list[str], config: Config) -> list[dict]:
     tasks = []
+    # 쿼리당 수집 개수 결정
     per_query = max(5, config.target_papers // len(queries))
     for q in queries:
-        tasks.append(fetch_semantic_scholar(q, per_query))
+        tasks.append(fetch_semantic_scholar(q, per_query, year_range=config.year_range))
         tasks.append(fetch_arxiv(q, per_query))
+    
     results = await asyncio.gather(*tasks, return_exceptions=True)
     all_papers = []
     for r in results:
@@ -108,7 +171,30 @@ async def collect_papers(queries: list[str], config: Config) -> list[dict]:
             logger.warning(f"API fetch failed: {r}")
         else:
             all_papers.extend(r)
+            
     deduped = deduplicate_papers(all_papers)
+    
+    # Snowball Search 확장 (필요 시)
+    if config.use_snowball and len(deduped) < config.target_papers * 1.5:
+        logger.info("Performing Snowball Search expansion...")
+        # 상위 5개 논문에 대해 인용/참조 추적
+        seed_papers = sorted(deduped, key=lambda x: x.get("citation_count", 0), reverse=True)[:5]
+        snowball_tasks = []
+        for p in seed_papers:
+            full_id = p.get("full_paper_id")
+            if full_id:
+                snowball_tasks.append(fetch_citations(full_id, limit=10))
+                snowball_tasks.append(fetch_references(full_id, limit=10))
+        
+        snowball_results = await asyncio.gather(*snowball_tasks, return_exceptions=True)
+        for r in snowball_results:
+            if not isinstance(r, Exception):
+                deduped.extend(r)
+        
+        deduped = deduplicate_papers(deduped)
+        logger.info(f"  → Total papers after snowballing: {len(deduped)}")
+
     if len(deduped) < config.target_papers:
         logger.warning(f"Collected {len(deduped)} papers, target was {config.target_papers}")
-    return deduped[:config.target_papers]
+        
+    return deduped[:config.target_papers * 2]  # 좀 더 넉넉하게 반환하여 S3에서 거를 수 있게 함

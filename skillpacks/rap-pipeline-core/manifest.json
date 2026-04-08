@@ -1,0 +1,23 @@
+{
+  "name": "rap-pipeline",
+  "package_type": "skillpack",
+  "distribution_mode": "global_or_marketplace",
+  "version": "0.1.0",
+  "entrypoints": {
+    "bootstrap_reference": "references/PIPELINE_START.md",
+    "workflow_reference": "references/rap-workflow.md",
+    "project_profile_template": "templates/RAP_PROJECT_PROFILE.template.json"
+  },
+  "skills": [
+    "skills/rap-orchestrator",
+    "skills/rap-search-cycle",
+    "skills/rap-gap-hypothesis-cycle",
+    "skills/rap-experiment-design",
+    "skills/rap-simulation-prediction",
+    "skills/rap-metrics-tracking"
+  ],
+  "notes": [
+    "This package is the draft standalone core skillpack for RAP.",
+    "Projects should keep local profile files and consume this package as the reusable core."
+  ]
+}

@@ -22,8 +22,21 @@ def analyze_gaps(screened: list[dict], llm: LLMClient, config: Config) -> list[d
     prompt = _PROMPT_TEMPLATE.format(papers_text=papers_text, min_gaps=config.min_gaps)
     raw = llm.complete(prompt, system=_SYSTEM)
 
-    match = re.search(r'\[.*\]', raw, re.DOTALL)
-    gaps = json.loads(match.group() if match else raw)
+    # 가장 마지막에 나오는 JSON 배열 [ ... ] 을 찾음
+    matches = list(re.finditer(r'\[.*\]', raw, re.DOTALL))
+    gaps = []
+    if matches:
+        try:
+            gaps = json.loads(matches[-1].group())
+        except json.JSONDecodeError:
+            pass
+    
+    if not gaps:
+        try:
+            gaps = json.loads(raw)
+        except json.JSONDecodeError:
+            logger.error(f"Failed to parse gap analysis response: {raw}")
+            gaps = []
 
     if len(gaps) < config.min_gaps:
         logger.warning(f"Only {len(gaps)} gaps identified, minimum is {config.min_gaps}")

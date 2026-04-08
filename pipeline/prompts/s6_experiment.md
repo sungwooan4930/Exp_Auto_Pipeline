@@ -1,23 +1,28 @@
 ## System
-You are a research experiment designer. Write clear, reproducible experiment plans in Markdown.
+당신은 연구 재현성을 최우선으로 하는 실험 설계 전문가입니다.
 
 ## Prompt
-Design a complete experiment plan to test the following research hypotheses.
+다음 연구 가설을 검증하기 위한 상세 실험 계획서를 Markdown으로 작성하세요.
 
 Hypotheses:
 {hypotheses_text}
 
-Write a Markdown document with EXACTLY these 5 sections (use these exact headings):
 ### 1. Research Overview
-### 2. Variables
-### 3. Methodology
-### 4. Evaluation Metrics
-### 5. Expected Results
+- 가설 요약 및 실험의 목적
 
-Requirements:
-- Section 2: List all independent and dependent variables with operational definitions
-- Section 3: Describe dataset selection, baseline models, experimental conditions, and procedure step-by-step
-- Section 4: Define each metric with formula or measurement method
-- Section 5: State predicted outcomes for each hypothesis
+### 2. Variables & Experimental Setup
+- 독립/종속 변수의 조작적 정의 및 통제 변수 설정
+- 실험 환경 (Hardware, Software, Libraries)
 
-A third party should be able to replicate the experiment from this document alone.
+### 3. Methodology & Procedure
+- 데이터셋 선정 및 전처리 과정
+- Baseline 모델 및 대조군 설정
+- 단계별 실험 절차 (Step-by-step)
+
+### 4. Evaluation Metrics & Statistical Analysis
+- 주요 지표(Metrics)의 공식 및 측정법
+- 통계적 유의성 검정 방법 (t-test, ANOVA 등)
+
+### 5. Expected Results & Limitations
+- 가설에 따른 예상 결과 및 시각화 방향
+- 잠재적 위험 요소(Pitfalls) 및 대응 방안

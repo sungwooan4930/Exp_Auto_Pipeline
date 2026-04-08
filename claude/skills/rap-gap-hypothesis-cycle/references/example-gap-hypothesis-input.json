@@ -1,0 +1,18 @@
+{
+  "iteration": 1,
+  "approved_search_output_ref": "search_cycle_output.json",
+  "approved_papers": [
+    {
+      "paper_id": "paper_001",
+      "title": "Human-in-the-Loop Scholarly Search for AI Research Workflows",
+      "abstract": "This paper studies iterative search refinement with expert approval signals."
+    },
+    {
+      "paper_id": "paper_002",
+      "title": "Interactive Retrieval Loops for Research Assistants",
+      "abstract": "We evaluate retrieval systems that adapt to human approval signals over repeated rounds."
+    }
+  ],
+  "previous_feedback": [],
+  "previous_output_ref": null
+}

@@ -1,0 +1,15 @@
+{
+  "experiment_design_output_ref": "experiment_design_output.json",
+  "data_mode": "synthetic",
+  "data_sources": [
+    {
+      "name": "mock_researcher_responses",
+      "type": "mock",
+      "description": "Synthetic approval decisions generated from assumed expert behavior patterns."
+    }
+  ],
+  "simulation_constraints": [
+    "assume 30 participants",
+    "simulate 3 review rounds per participant"
+  ]
+}

@@ -30,12 +30,30 @@ def generate_hypotheses(
         min_hypotheses=config.min_hypotheses
     )
     raw = llm.complete(prompt, system=_SYSTEM)
-    match = re.search(r'\[.*\]', raw, re.DOTALL)
-    hypotheses = json.loads(match.group() if match else raw)
+    
+    # 가장 마지막에 나오는 JSON 배열 [ ... ] 을 찾음
+    matches = list(re.finditer(r'\[.*\]', raw, re.DOTALL))
+    hypotheses = []
+    if matches:
+        try:
+            hypotheses = json.loads(matches[-1].group())
+        except json.JSONDecodeError:
+            pass
+    
+    if not hypotheses:
+        try:
+            hypotheses = json.loads(raw)
+        except json.JSONDecodeError:
+            logger.error(f"Failed to parse hypothesis generation response: {raw}")
+            hypotheses = []
 
     # clip novelty_score to [0, 1]
     for h in hypotheses:
-        h["novelty_score"] = max(0.0, min(1.0, float(h.get("novelty_score", 0.5))))
+        if isinstance(h, dict):
+            try:
+                h["novelty_score"] = max(0.0, min(1.0, float(h.get("novelty_score", 0.5))))
+            except (ValueError, TypeError):
+                h["novelty_score"] = 0.5
 
     if len(hypotheses) < config.min_hypotheses:
         logger.warning(f"Only {len(hypotheses)} hypotheses generated, minimum is {config.min_hypotheses}")

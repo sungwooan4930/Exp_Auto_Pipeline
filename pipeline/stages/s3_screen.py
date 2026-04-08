@@ -11,10 +11,18 @@ _SYSTEM, _PROMPT_TEMPLATE = load_prompt("s3_screen")
 
 
 def _parse_screening_response(raw: str) -> dict:
-    match = re.search(r'\{.*\}', raw, re.DOTALL)
-    if match:
-        return json.loads(match.group())
-    return json.loads(raw)
+    # 가장 마지막에 나오는 JSON 객체 { ... } 를 찾음
+    matches = list(re.finditer(r'\{.*\}', raw, re.DOTALL))
+    if matches:
+        try:
+            return json.loads(matches[-1].group())
+        except json.JSONDecodeError:
+            pass
+    try:
+        return json.loads(raw)
+    except json.JSONDecodeError:
+        logger.error(f"Failed to parse screening response: {raw}")
+        return {"decision": "exclude", "reason": "Parsing error", "category": "Unknown", "confidence_score": 0.0}
 
 
 def screen_papers(papers: list[dict], domain: str, llm: LLMClient, config: Config) -> list[dict]:
@@ -27,11 +35,15 @@ def screen_papers(papers: list[dict], domain: str, llm: LLMClient, config: Confi
         )
         raw = llm.complete(prompt, system=_SYSTEM)
         parsed = _parse_screening_response(raw)
+        
+        # 새 필드들 포함 (category, confidence_score)
         results.append({
             "paper_id": paper["paper_id"],
             "title": paper.get("title", ""),
             "abstract": paper.get("abstract", ""),
             "decision": parsed.get("decision", "exclude"),
+            "category": parsed.get("category", "Unknown"),
+            "confidence_score": parsed.get("confidence_score", 0.0),
             "reason": parsed.get("reason", "")
         })
 

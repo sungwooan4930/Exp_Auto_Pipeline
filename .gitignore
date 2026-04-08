@@ -32,6 +32,8 @@ wheels/
 .pytest_cache/
 .coverage
 htmlcov/
+test_output.log
+tmp_claude_rap_debug*.log
 
 # IDE
 .vscode/
@@ -43,3 +45,9 @@ htmlcov/
 # OS
 .DS_Store
 Thumbs.db
+
+# Local tooling and generated artifacts
+.superpowers/
+outputs/
+latest
+pdf_content.txt

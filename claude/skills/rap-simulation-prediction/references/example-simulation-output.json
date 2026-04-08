@@ -1,0 +1,30 @@
+{
+  "simulation_id": "sim_001",
+  "data_mode": "synthetic",
+  "simulation_setup": {
+    "steps": [
+      "Generate synthetic approval decisions for each condition.",
+      "Estimate final precision and latency across 3 rounds.",
+      "Compare structured versus unstructured approval workflows."
+    ],
+    "assumptions": [
+      "structured criteria reduce ambiguity",
+      "fine-grained feedback lowers revision overhead"
+    ]
+  },
+  "predicted_results": [
+    {
+      "metric": "final approved set precision",
+      "expected_value": "+12% versus baseline",
+      "interpretation": "Structured approval criteria should improve final decision quality."
+    },
+    {
+      "metric": "approval latency",
+      "expected_value": "-18% versus coarse feedback",
+      "interpretation": "Fine-grained feedback should shorten iteration time."
+    }
+  ],
+  "validation_result": "pass",
+  "failure_analysis": [],
+  "recommended_backtrack_stage": "none"
+}

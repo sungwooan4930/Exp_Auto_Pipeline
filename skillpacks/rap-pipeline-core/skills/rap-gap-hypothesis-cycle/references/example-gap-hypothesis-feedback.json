@@ -1,0 +1,16 @@
+{
+  "iteration": 1,
+  "feedback_items": [
+    {
+      "target": "gap",
+      "target_id": "gap_001",
+      "comment": "Make the gap more specific to final approval decision quality."
+    },
+    {
+      "target": "hypothesis",
+      "target_id": "h_002",
+      "comment": "This hypothesis is too broad. Tie it to measurable approval latency."
+    }
+  ],
+  "approval_status": "revise"
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "rap-pipeline-local",
+  "description": "Local marketplace for the reusable RAP research automation pipeline plugin.",
+  "owner": {
+    "name": "sungw"
+  },
+  "plugins": [
+    {
+      "name": "rap-pipeline",
+      "description": "Reusable research automation pipeline with search approval loops, gap and hypothesis approval loops, experiment design, simulation, and metrics tracking.",
+      "source": "./plugins/rap-pipeline",
+      "category": "development"
+    }
+  ]
+}

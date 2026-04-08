@@ -1,0 +1,15 @@
+{
+  "name": "rap-pipeline",
+  "version": "0.1.0",
+  "description": "Reusable research automation pipeline for search approval loops, gap and hypothesis refinement, experiment design, simulation, and metrics tracking.",
+  "author": {
+    "name": "sungw"
+  },
+  "keywords": [
+    "research",
+    "pipeline",
+    "skills",
+    "literature-search",
+    "workflow"
+  ]
+}

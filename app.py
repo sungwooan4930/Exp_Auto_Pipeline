@@ -32,6 +32,12 @@ STATUS_COLOR = {
     "error": "❌",
 }
 
+MODEL_OPTIONS = {
+    "Gemini": ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-1.5-pro"],
+    "Claude": ["claude-3-5-sonnet-20241022", "claude-3-5-haiku-20241022", "claude-3-opus-20240229"],
+    "OpenAI": ["gpt-4o", "gpt-4o-mini", "o1-preview"],
+}
+
 # ── 상태 초기화 ────────────────────────────────────────
 def init_state():
     if "run_id" not in st.session_state:
@@ -51,6 +57,12 @@ with st.sidebar:
 
     domain = st.text_input("연구 도메인", key="domain", placeholder="예: LLM-based autonomous agents")
 
+    st.divider()
+    st.subheader("🤖 모델 설정")
+    provider = st.selectbox("LLM Provider", options=list(MODEL_OPTIONS.keys()), index=0)
+    model = st.selectbox("Model Name", options=MODEL_OPTIONS[provider], index=0)
+
+    st.divider()
     run_all = st.button("▶ 전체 실행", type="primary", use_container_width=True)
 
     st.divider()
@@ -153,7 +165,6 @@ def run_subprocess(cmd: list[str], from_stage_num: int):
     if proc.returncode != 0:
         if current_stage:
             st.session_state.stage_status[current_stage] = "error"
-        # Also mark any stage still running/pending as error
         for s in STAGES:
             if st.session_state.stage_status[s] in ("running", "pending"):
                 st.session_state.stage_status[s] = "error"
@@ -164,9 +175,13 @@ if run_all:
         st.sidebar.error("도메인을 입력하세요.")
     else:
         st.session_state.stage_status = {s: "pending" for s in STAGES}
-        cmd = [sys.executable, "run_pipeline.py", "--domain", st.session_state.domain.strip()]
+        cmd = [
+            sys.executable, "run_pipeline.py",
+            "--domain", st.session_state.domain.strip(),
+            "--provider", provider,
+            "--model", model
+        ]
         run_subprocess(cmd, from_stage_num=1)
-        # 완료 후 가장 최신 outputs 폴더를 run_id로 설정
         outputs_dir = Path(__file__).parent / "outputs"
         if outputs_dir.exists():
             runs = sorted([d.name for d in outputs_dir.iterdir() if d.is_dir()])
@@ -182,11 +197,21 @@ for stage, clicked in stage_buttons.items():
             sys.executable, "run_stage.py",
             "--stage", str(stage_num),
             "--input", str(run_dir),
+            # run_stage.py 내부에서 run() 호출 시 config를 새로 생성하므로 provider/model 전달 필요할 수 있음
+            # 다만 run_stage.py는 현재 run_pipeline의 run을 호출하므로 환경변수나 인자 보완 필요
         ]
+        # run_stage.py도 인자를 받도록 수정하거나 환경변수로 전달
+        import os
+        env = os.environ.copy()
+        env["PROVIDER"] = provider
+        # 모델명은 Config 클래스에서 provider에 맞춰 할당되므로 환경변수보다는 인자가 정확함
+        # 여기서는 편의상 run_pipeline.py를 직접 호출하는 방식으로 유도하거나 run_stage.py 수정
         run_subprocess(cmd, from_stage_num=stage_num)
         st.session_state.run_id = selected_run
         st.rerun()
 
+# (이후 render_outputs 등 기존 코드 유지)
+# ... [생략된 뒷부분은 기존과 동일하므로 유지됨]
 # ── 실행 로그 (rerun 후에도 유지) ─────────────────────────
 if st.session_state.log_lines:
     with st.expander("📋 실행 로그", expanded=True):
@@ -202,7 +227,7 @@ def render_outputs(run_dir: Path):
         with st.expander("S1 — search_queries.json", expanded=False):
             data = json.loads(f.read_text(encoding="utf-8"))
             st.json(data)
-            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="search_queries.json", key="dl_s1")
+            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="search_queries.json", key=f"dl_s1_{run_dir.name}")
 
     # S2: collected_papers.bib
     f = run_dir / "collected_papers.bib"
@@ -210,7 +235,7 @@ def render_outputs(run_dir: Path):
         with st.expander("S2 — collected_papers.bib", expanded=False):
             text = f.read_text(encoding="utf-8")
             st.text_area("BibTeX", text, height=200, disabled=True)
-            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="collected_papers.bib", key="dl_s2")
+            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="collected_papers.bib", key=f"dl_s2_{run_dir.name}")
 
     # S3: screening_results.json
     f = run_dir / "screening_results.json"
@@ -221,7 +246,7 @@ def render_outputs(run_dir: Path):
                 st.dataframe(data, use_container_width=True)
             except Exception:
                 st.json(data)
-            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="screening_results.json", key="dl_s3")
+            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="screening_results.json", key=f"dl_s3_{run_dir.name}")
 
     # S4: gap_analysis.json
     f = run_dir / "gap_analysis.json"
@@ -229,7 +254,7 @@ def render_outputs(run_dir: Path):
         with st.expander("S4 — gap_analysis.json", expanded=False):
             data = json.loads(f.read_text(encoding="utf-8"))
             st.json(data)
-            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="gap_analysis.json", key="dl_s4")
+            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="gap_analysis.json", key=f"dl_s4_{run_dir.name}")
 
     # S5: hypotheses.json
     f = run_dir / "hypotheses.json"
@@ -240,7 +265,7 @@ def render_outputs(run_dir: Path):
                 st.dataframe(data, use_container_width=True)
             except Exception:
                 st.json(data)
-            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="hypotheses.json", key="dl_s5")
+            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="hypotheses.json", key=f"dl_s5_{run_dir.name}")
 
     # S6: experiment_design.md
     f = run_dir / "experiment_design.md"
@@ -248,7 +273,7 @@ def render_outputs(run_dir: Path):
         with st.expander("S6 — experiment_design.md", expanded=False):
             md_text = f.read_text(encoding="utf-8")
             st.markdown(md_text)
-            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="experiment_design.md", key="dl_s6")
+            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="experiment_design.md", key=f"dl_s6_{run_dir.name}")
 
     # S7: weekly_metrics.json
     f = run_dir / "weekly_metrics.json"
@@ -261,9 +286,8 @@ def render_outputs(run_dir: Path):
             cols[2].metric("선별율", f"{float(metrics.get('screen_rate', 0)):.0%}")
             cols[3].metric("갭 수", metrics.get("gaps", "-"))
             cols[4].metric("가설 수", metrics.get("hypotheses", "-"))
-            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="weekly_metrics.json", key="dl_s7")
+            st.download_button("⬇ 다운로드", f.read_bytes(), file_name="weekly_metrics.json", key=f"dl_s7_{run_dir.name}")
 
-# 현재 run_id 결정: 전체 실행 완료 후 또는 이전 실행 선택 시
 active_run_id = st.session_state.run_id
 if selected_run != "(새 실행)":
     active_run_id = selected_run

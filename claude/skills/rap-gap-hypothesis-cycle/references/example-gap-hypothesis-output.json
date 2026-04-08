@@ -1,0 +1,45 @@
+{
+  "iteration": 2,
+  "gaps": [
+    {
+      "gap_id": "gap_001",
+      "gap": "Existing work studies iterative search refinement, but rarely measures the quality of final researcher approval decisions.",
+      "evidence_papers": [
+        "paper_001",
+        "paper_002"
+      ]
+    },
+    {
+      "gap_id": "gap_002",
+      "gap": "Few studies compare approval-loop search systems under different levels of researcher feedback granularity.",
+      "evidence_papers": [
+        "paper_002"
+      ]
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_id": "h_001",
+      "linked_gap_id": "gap_001",
+      "hypothesis": "Providing structured approval criteria improves final paper set quality.",
+      "independent_var": "structured approval criteria",
+      "dependent_var": "final approved paper set quality",
+      "expected_relation": "positive"
+    },
+    {
+      "hypothesis_id": "h_002",
+      "linked_gap_id": "gap_002",
+      "hypothesis": "Fine-grained researcher feedback reduces approval latency compared with coarse feedback.",
+      "independent_var": "feedback granularity",
+      "dependent_var": "approval latency",
+      "expected_relation": "negative"
+    }
+  ],
+  "researcher_feedback": [
+    {
+      "target": "set",
+      "comment": "Approved to move into experiment design."
+    }
+  ],
+  "approval_status": "approved"
+}

@@ -1,0 +1,49 @@
+{
+  "iteration": 2,
+  "search_strategy": {
+    "facets": [
+      "research automation",
+      "human feedback",
+      "iterative literature search"
+    ],
+    "notes": "Second iteration narrowed toward approval-loop and search refinement papers."
+  },
+  "queries": [
+    "\"literature search\" AND \"human-in-the-loop\" AND automation",
+    "\"research automation\" AND iterative AND feedback",
+    "\"scholarly search\" AND approval AND agents"
+  ],
+  "candidate_papers": [
+    {
+      "paper_id": "paper_001",
+      "title": "Human-in-the-Loop Scholarly Search for AI Research Workflows",
+      "abstract": "This paper studies iterative search refinement with expert approval signals.",
+      "authors": [
+        "A. Kim",
+        "J. Park"
+      ],
+      "year": 2025,
+      "source": "semantic_scholar",
+      "reason_for_inclusion": "Directly studies iterative researcher feedback during search."
+    },
+    {
+      "paper_id": "paper_002",
+      "title": "Interactive Retrieval Loops for Research Assistants",
+      "abstract": "We evaluate retrieval systems that adapt to human approval signals over repeated rounds.",
+      "authors": [
+        "M. Lee"
+      ],
+      "year": 2024,
+      "source": "arxiv",
+      "reason_for_inclusion": "Relevant to repeated refinement and final approval workflow."
+    }
+  ],
+  "researcher_feedback": [
+    {
+      "type": "approve",
+      "target": "papers",
+      "comment": "This set is focused enough to proceed."
+    }
+  ],
+  "approval_status": "approved"
+}

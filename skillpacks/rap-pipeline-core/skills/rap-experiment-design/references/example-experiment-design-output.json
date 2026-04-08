@@ -1,0 +1,45 @@
+{
+  "design_id": "exp_design_001",
+  "selected_hypotheses": [
+    "h_001",
+    "h_002"
+  ],
+  "variables": {
+    "independent": [
+      "structured approval criteria",
+      "feedback granularity"
+    ],
+    "dependent": [
+      "approved paper set quality",
+      "approval latency"
+    ],
+    "control": [
+      "paper pool size",
+      "research domain",
+      "number of review rounds"
+    ]
+  },
+  "procedure": [
+    "Prepare a shared paper pool for all participants.",
+    "Assign participants to structured or unstructured approval conditions.",
+    "Collect approval decisions over repeated search rounds.",
+    "Measure final selection quality and latency."
+  ],
+  "evaluation_metrics": [
+    "precision of final approved set",
+    "approval latency in minutes",
+    "researcher satisfaction score"
+  ],
+  "statistical_tests": [
+    "independent t-test",
+    "two-way ANOVA"
+  ],
+  "expected_outcomes": [
+    "structured criteria improve selection quality",
+    "fine-grained feedback reduces latency"
+  ],
+  "risks_and_limitations": [
+    "small participant counts may reduce significance",
+    "domain differences may affect approval behavior"
+  ]
+}

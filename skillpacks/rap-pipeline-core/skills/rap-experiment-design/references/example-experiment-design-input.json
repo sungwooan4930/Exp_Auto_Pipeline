@@ -1,0 +1,13 @@
+{
+  "gap_hypothesis_output_ref": "gap_hypothesis_output.json",
+  "selected_hypotheses": [
+    {
+      "hypothesis_id": "h_001",
+      "hypothesis": "Providing structured approval criteria improves final paper set quality."
+    },
+    {
+      "hypothesis_id": "h_002",
+      "hypothesis": "Fine-grained researcher feedback reduces approval latency compared with coarse feedback."
+    }
+  ]
+}

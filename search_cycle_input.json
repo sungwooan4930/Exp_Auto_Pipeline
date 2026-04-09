@@ -1,5 +1,6 @@
 {
   "iteration": 1,
+  "project_profile_ref": "RAP_PROJECT_PROFILE.json",
   "request": {
     "domain": "Rapid fNIRS decoding",
     "keywords": [
@@ -24,11 +25,22 @@
       "Prioritize papers that explicitly evaluate decoding speed, latency, or early prediction windows.",
       "Include both methodological papers and application papers in BCI or neuroergonomics contexts.",
       "Prefer papers with enough experimental detail to inform gap analysis and experiment design."
+    ],
+    "preferred_sources": [
+      "semantic_scholar",
+      "arxiv"
+    ],
+    "year_range": {
+      "start": 2020,
+      "end": 2026
+    },
+    "exclusion_rules": [
+      "Exclude studies without decoding or classification outcomes.",
+      "Exclude papers without enough abstract detail to judge task relevance."
     ]
   },
   "previous_feedback": [],
   "previous_output_ref": null,
-  "project_profile_ref": "RAP_PROJECT_PROFILE.json",
   "status": "ready",
   "notes": "Initial real-run draft for the rapid fNIRS decoding topic."
 }

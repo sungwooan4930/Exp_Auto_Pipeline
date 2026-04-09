@@ -1,5 +1,6 @@
 {
   "iteration": 1,
+  "project_profile_ref": "RAP_PROJECT_PROFILE.json",
   "request": {
     "domain": "LLM-based research automation",
     "keywords": [
@@ -15,8 +16,22 @@
     "constraints": [
       "prefer papers from 2022 or later",
       "include both systems and evaluation papers"
+    ],
+    "preferred_sources": [
+      "semantic_scholar",
+      "arxiv"
+    ],
+    "year_range": {
+      "start": 2022,
+      "end": 2026
+    },
+    "exclusion_rules": [
+      "exclude non-scholarly blog posts",
+      "exclude papers without abstracts"
     ]
   },
   "previous_feedback": [],
-  "previous_output_ref": null
+  "previous_output_ref": null,
+  "status": "ready",
+  "notes": "Initial search draft for the first approval round."
 }

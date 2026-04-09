@@ -1,15 +1,24 @@
 {
+  "project_profile_ref": "RAP_PROJECT_PROFILE.json",
   "experiment_design_output_ref": "experiment_design_output.json",
+  "simulation_goal": "Estimate whether the proposed approval workflow design is likely to improve quality and reduce latency before collecting real participant data.",
   "data_mode": "synthetic",
   "data_sources": [
     {
       "name": "mock_researcher_responses",
       "type": "mock",
-      "description": "Synthetic approval decisions generated from assumed expert behavior patterns."
+      "description": "Synthetic approval decisions generated from assumed expert behavior patterns.",
+      "availability": "to_be_created"
     }
   ],
   "simulation_constraints": [
     "assume 30 participants",
     "simulate 3 review rounds per participant"
-  ]
+  ],
+  "success_criteria": [
+    "final approved set precision improves over baseline",
+    "approval latency decreases without severe loss in satisfaction"
+  ],
+  "status": "ready",
+  "notes": "Synthetic dry-run before real data collection."
 }

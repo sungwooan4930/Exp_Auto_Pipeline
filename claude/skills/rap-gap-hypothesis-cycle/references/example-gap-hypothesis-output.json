@@ -3,17 +3,29 @@
   "gaps": [
     {
       "gap_id": "gap_001",
+      "gap_type": "empirical",
       "gap": "Existing work studies iterative search refinement, but rarely measures the quality of final researcher approval decisions.",
+      "significance": "Without direct quality measurement, it is hard to compare approval-loop systems fairly.",
       "evidence_papers": [
         "paper_001",
         "paper_002"
+      ],
+      "open_questions": [
+        "How should final approval quality be operationalized?",
+        "Which decision-support signals improve approval quality most?"
       ]
     },
     {
       "gap_id": "gap_002",
+      "gap_type": "methodological",
       "gap": "Few studies compare approval-loop search systems under different levels of researcher feedback granularity.",
+      "significance": "Feedback granularity likely changes both iteration speed and the quality of the accepted paper set.",
       "evidence_papers": [
         "paper_002"
+      ],
+      "open_questions": [
+        "Does fine-grained feedback increase cognitive overhead?",
+        "What granularity best balances latency and precision?"
       ]
     }
   ],
@@ -22,17 +34,39 @@
       "hypothesis_id": "h_001",
       "linked_gap_id": "gap_001",
       "hypothesis": "Providing structured approval criteria improves final paper set quality.",
+      "rationale": "Explicit decision criteria should reduce approval inconsistency and improve selection quality across rounds.",
       "independent_var": "structured approval criteria",
       "dependent_var": "final approved paper set quality",
-      "expected_relation": "positive"
+      "control_variables": [
+        "paper pool size",
+        "research domain",
+        "number of review rounds"
+      ],
+      "expected_relation": "positive",
+      "novelty_score": 0.72,
+      "testability_notes": [
+        "Define paper set quality with relevance and completeness metrics.",
+        "Keep baseline review conditions constant across groups."
+      ]
     },
     {
       "hypothesis_id": "h_002",
       "linked_gap_id": "gap_002",
       "hypothesis": "Fine-grained researcher feedback reduces approval latency compared with coarse feedback.",
+      "rationale": "More specific feedback should shorten revision cycles by making system adjustments easier to interpret.",
       "independent_var": "feedback granularity",
       "dependent_var": "approval latency",
-      "expected_relation": "negative"
+      "control_variables": [
+        "interface design",
+        "paper pool size",
+        "participant expertise"
+      ],
+      "expected_relation": "negative",
+      "novelty_score": 0.68,
+      "testability_notes": [
+        "Define latency as time from candidate set presentation to researcher approval.",
+        "Measure whether finer feedback increases annotation burden."
+      ]
     }
   ],
   "researcher_feedback": [

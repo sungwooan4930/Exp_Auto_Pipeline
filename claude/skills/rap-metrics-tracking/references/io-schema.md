@@ -1,4 +1,4 @@
-# RAP Metrics Tracking JSON 스키마
+# RAP Metrics Tracking JSON Schema
 
 ## weekly_metrics.json
 
@@ -6,6 +6,8 @@
 {
   "run_id": "rap_2026_04_08_001",
   "timestamp": "2026-04-08T10:00:00+09:00",
+  "overall_status": "in_progress|completed|blocked",
+  "active_stage": "search_cycle|gap_hypothesis_cycle|experiment_design|simulation_prediction|metrics",
   "search_cycle": {
     "iterations": 2,
     "approval_status": "approved",
@@ -25,6 +27,8 @@
     "simulation_count": 1,
     "validation_result": "pass",
     "recommended_backtrack_stage": "none"
-  }
+  },
+  "blockers": ["string"],
+  "notes": ["string"]
 }
 ```

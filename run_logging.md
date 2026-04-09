@@ -294,3 +294,26 @@
 - Updated `pipeline/prompts/s6_experiment.md` and `pipeline/stages/s6_experiment.py` so the experiment-design prompt carries explicit hypothesis field names (`hypothesis`, `independent_var`, `dependent_var`, `expected_relation`).
 - Simplified `pipeline.llm.get_client()` so `provider="claude"` returns `ClaudeClient`, while `provider="claude-cli"` explicitly selects `ClaudeCLIClient`.
 - Verification: `pytest -q` now passes fully (`44 passed`).
+## 2026-04-09 - Normalize JSON contracts across all RAP stages
+
+- Refined the search-cycle, gap-hypothesis, experiment-design, simulation-prediction, and metrics-tracking JSON contracts to use a more consistent structure.
+- Search-cycle updates:
+  - added `project_profile_ref`, `preferred_sources`, `year_range`, `exclusion_rules`, `status`, and `notes` to input
+  - added `sources`, `doi`, `url`, `matched_queries`, and `screening_note` to output
+  - added `priority` and broader `target` values to feedback
+- Gap-hypothesis updates:
+  - added richer approved-paper metadata and `analysis_focus` to input
+  - added `type` and `priority` to feedback
+  - added `gap_type`, `significance`, `open_questions`, `rationale`, `control_variables`, `novelty_score`, and `testability_notes` to output
+- Experiment-design updates:
+  - added `project_profile_ref`, richer hypothesis metadata, `design_goals`, `constraints`, `status`, and `notes` to input
+  - added `dataset_plan`, structured metric/test entries, `artifact_plan`, and `status` to output
+- Simulation-prediction updates:
+  - added `project_profile_ref`, `simulation_goal`, data-source availability, `success_criteria`, `status`, and `notes` to input
+  - added `experiment_design_output_ref` and `next_actions` to output
+- Metrics updates:
+  - added `overall_status`, `active_stage`, `blockers`, and `notes`
+- Synced both local `claude/` references and distributable `skillpacks/rap-pipeline-core/` references.
+- Verification:
+  - all updated example JSON files parsed successfully
+  - `pytest -q` passed (`44 passed`)

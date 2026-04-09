@@ -2,14 +2,25 @@
   "iteration": 1,
   "feedback_items": [
     {
+      "type": "refine",
       "target": "gap",
       "target_id": "gap_001",
-      "comment": "Make the gap more specific to final approval decision quality."
+      "comment": "Make the gap more specific to final approval decision quality.",
+      "priority": "high"
     },
     {
+      "type": "refine",
       "target": "hypothesis",
       "target_id": "h_002",
-      "comment": "This hypothesis is too broad. Tie it to measurable approval latency."
+      "comment": "Tie this hypothesis more explicitly to measurable approval latency.",
+      "priority": "high"
+    },
+    {
+      "type": "expand",
+      "target": "evidence",
+      "target_id": "gap_002",
+      "comment": "Add at least one more paper supporting the claim about feedback granularity.",
+      "priority": "medium"
     }
   ],
   "approval_status": "revise"

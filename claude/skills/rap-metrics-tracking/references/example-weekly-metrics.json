@@ -1,6 +1,8 @@
 {
   "run_id": "rap_2026_04_08_001",
   "timestamp": "2026-04-08T10:00:00+09:00",
+  "overall_status": "completed",
+  "active_stage": "metrics",
   "search_cycle": {
     "iterations": 2,
     "approval_status": "approved",
@@ -20,5 +22,10 @@
     "simulation_count": 1,
     "validation_result": "pass",
     "recommended_backtrack_stage": "none"
-  }
+  },
+  "blockers": [],
+  "notes": [
+    "Search and refinement loops were both completed in two iterations.",
+    "Synthetic simulation passed without requiring backtracking."
+  ]
 }

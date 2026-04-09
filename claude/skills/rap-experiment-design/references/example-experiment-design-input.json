@@ -1,13 +1,28 @@
 {
+  "project_profile_ref": "RAP_PROJECT_PROFILE.json",
   "gap_hypothesis_output_ref": "gap_hypothesis_output.json",
   "selected_hypotheses": [
     {
       "hypothesis_id": "h_001",
-      "hypothesis": "Providing structured approval criteria improves final paper set quality."
+      "hypothesis": "Providing structured approval criteria improves final paper set quality.",
+      "independent_var": "structured approval criteria",
+      "dependent_var": "final approved paper set quality"
     },
     {
       "hypothesis_id": "h_002",
-      "hypothesis": "Fine-grained researcher feedback reduces approval latency compared with coarse feedback."
+      "hypothesis": "Fine-grained researcher feedback reduces approval latency compared with coarse feedback.",
+      "independent_var": "feedback granularity",
+      "dependent_var": "approval latency"
     }
-  ]
+  ],
+  "design_goals": [
+    "compare structured versus unstructured approval workflows",
+    "measure both quality and latency outcomes"
+  ],
+  "constraints": [
+    "keep the paper pool identical across conditions",
+    "use the same review interface across participant groups"
+  ],
+  "status": "ready",
+  "notes": "Design request prepared from approved gap and hypothesis output."
 }

@@ -4,12 +4,20 @@
     {
       "type": "narrow",
       "target": "topic",
-      "comment": "Focus more on researcher-in-the-loop workflows than generic RAG systems."
+      "comment": "Focus more on researcher-in-the-loop workflows than generic RAG systems.",
+      "priority": "high"
     },
     {
       "type": "prioritize",
       "target": "papers",
-      "comment": "Prioritize papers with explicit iterative search or approval loops."
+      "comment": "Prioritize papers with explicit iterative search or approval loops.",
+      "priority": "high"
+    },
+    {
+      "type": "replace",
+      "target": "sources",
+      "comment": "Use Semantic Scholar and arXiv first before broader web search.",
+      "priority": "medium"
     }
   ],
   "approval_status": "revise"

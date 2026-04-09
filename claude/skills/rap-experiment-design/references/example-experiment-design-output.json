@@ -19,6 +19,13 @@
       "number of review rounds"
     ]
   },
+  "dataset_plan": {
+    "sources": [
+      "shared paper pool from approved search output",
+      "researcher approval logs"
+    ],
+    "sampling_strategy": "Assign participants to experimental conditions while keeping paper pool composition fixed."
+  },
   "procedure": [
     "Prepare a shared paper pool for all participants.",
     "Assign participants to structured or unstructured approval conditions.",
@@ -26,13 +33,28 @@
     "Measure final selection quality and latency."
   ],
   "evaluation_metrics": [
-    "precision of final approved set",
-    "approval latency in minutes",
-    "researcher satisfaction score"
+    {
+      "name": "precision of final approved set",
+      "definition": "Share of finally approved papers judged relevant by expert review."
+    },
+    {
+      "name": "approval latency",
+      "definition": "Time required to reach a final approved paper set."
+    },
+    {
+      "name": "researcher satisfaction score",
+      "definition": "Post-task subjective rating of workflow quality."
+    }
   ],
   "statistical_tests": [
-    "independent t-test",
-    "two-way ANOVA"
+    {
+      "name": "independent t-test",
+      "purpose": "Compare approval latency across two workflow conditions."
+    },
+    {
+      "name": "two-way ANOVA",
+      "purpose": "Estimate interaction effects between criteria structure and feedback granularity."
+    }
   ],
   "expected_outcomes": [
     "structured criteria improve selection quality",
@@ -41,5 +63,12 @@
   "risks_and_limitations": [
     "small participant counts may reduce significance",
     "domain differences may affect approval behavior"
-  ]
+  ],
+  "artifact_plan": [
+    "participant assignment table",
+    "approval log export",
+    "analysis notebook",
+    "summary figure set"
+  ],
+  "status": "completed"
 }

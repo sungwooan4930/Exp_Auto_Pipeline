@@ -1,5 +1,6 @@
 {
   "iteration": 1,
+  "project_profile_ref": "RAP_PROJECT_PROFILE.json",
   "request": {
     "domain": "replace_with_research_domain",
     "keywords": [
@@ -14,11 +15,21 @@
     "constraints": [
       "Prefer papers published from 2022 onward.",
       "Replace this list with project-specific search constraints."
+    ],
+    "preferred_sources": [
+      "semantic_scholar",
+      "arxiv"
+    ],
+    "year_range": {
+      "start": 2022,
+      "end": 2026
+    },
+    "exclusion_rules": [
+      "Replace with project-specific exclusion rules."
     ]
   },
   "previous_feedback": [],
   "previous_output_ref": null,
-  "project_profile_ref": "RAP_PROJECT_PROFILE.json",
   "status": "draft",
   "notes": "Template file. Replace placeholder values before starting the search loop."
 }

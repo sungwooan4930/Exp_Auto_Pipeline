@@ -46,3 +46,32 @@ def test_generate_queries_calls_llm_with_domain(mock_llm):
     generate_queries("test domain", mock_llm, config)
     call_args = mock_llm.complete.call_args[0][0]
     assert "test domain" in call_args
+
+
+def test_generate_queries_accepts_structured_request(mock_llm):
+    config = Config()
+    request = {
+        "request": {
+            "domain": "rapid fNIRS decoding",
+            "keywords": ["fNIRS decoding", "real-time fNIRS"],
+            "experiment_type": "classification",
+            "research_goals": ["find low-latency decoding studies"],
+            "constraints": ["prefer papers after 2020"],
+            "preferred_sources": ["semantic_scholar", "arxiv"],
+            "year_range": {"start": 2020, "end": 2026},
+            "exclusion_rules": ["exclude non-decoding studies"],
+        },
+        "quality_criteria": {
+            "must_cover": ["rapid and real-time variants"],
+            "must_avoid": ["title-only judgments"],
+            "selection_principles": ["explicit inclusion reasons"],
+        },
+    }
+
+    result = generate_queries(request, mock_llm, config)
+
+    assert result["domain"] == "rapid fNIRS decoding"
+    assert result["request"]["keywords"] == ["fNIRS decoding", "real-time fNIRS"]
+    call_args = mock_llm.complete.call_args[0][0]
+    assert "real-time fNIRS" in call_args
+    assert "rapid and real-time variants" in call_args

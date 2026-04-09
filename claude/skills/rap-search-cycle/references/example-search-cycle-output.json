@@ -10,6 +10,11 @@
       "semantic_scholar",
       "arxiv"
     ],
+    "quality_checks": [
+      "used two scholarly sources",
+      "covered both automation and approval-loop query angles",
+      "candidate papers were retained only with explicit inclusion reasons"
+    ],
     "notes": "Second iteration narrowed toward approval-loop and search refinement papers."
   },
   "queries": [

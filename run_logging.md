@@ -317,3 +317,19 @@
 - Verification:
   - all updated example JSON files parsed successfully
   - `pytest -q` passed (`44 passed`)
+## 2026-04-09 - Add search quality criteria to RAP search stage
+
+- Added explicit search-stage evaluation rules to the search skill documentation.
+- The search skill now defines:
+  - what not to do during literature search
+  - what counts as a good search result
+  - a required pre-approval evaluation checklist
+- Extended the search JSON contract with `quality_criteria` in `search_cycle_input.json`.
+- Extended the search output contract with `search_strategy.quality_checks`.
+- Updated:
+  - local `claude/skills/rap-search-cycle/`
+  - distributable `skillpacks/rap-pipeline-core/skills/rap-search-cycle/`
+  - `skillpacks/rap-pipeline-core/templates/search_cycle_input.template.json`
+  - root `search_cycle_input.json`
+- Verification:
+  - updated search example JSON files parsed successfully

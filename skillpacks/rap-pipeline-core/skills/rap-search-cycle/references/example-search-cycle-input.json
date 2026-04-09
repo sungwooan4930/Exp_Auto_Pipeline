@@ -30,6 +30,25 @@
       "exclude papers without abstracts"
     ]
   },
+  "quality_criteria": {
+    "must_cover": [
+      "core papers on human-in-the-loop scholarly search",
+      "query variants that reflect both automation and approval-loop language"
+    ],
+    "must_avoid": [
+      "papers included only because they are recent or popular",
+      "candidate sets that reflect only one expected conclusion"
+    ],
+    "selection_principles": [
+      "use more than one scholarly source when available",
+      "justify every included candidate with abstract-level evidence",
+      "prefer papers that can support downstream gap analysis"
+    ],
+    "stop_conditions": [
+      "candidate set is focused enough for researcher review",
+      "queries cover more than one angle of the research topic"
+    ]
+  },
   "previous_feedback": [],
   "previous_output_ref": null,
   "status": "ready",

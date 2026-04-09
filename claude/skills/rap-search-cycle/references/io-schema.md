@@ -19,6 +19,12 @@
     },
     "exclusion_rules": ["string"]
   },
+  "quality_criteria": {
+    "must_cover": ["string"],
+    "must_avoid": ["string"],
+    "selection_principles": ["string"],
+    "stop_conditions": ["string"]
+  },
   "previous_feedback": [],
   "previous_output_ref": null,
   "status": "draft|ready",
@@ -51,6 +57,7 @@
   "search_strategy": {
     "facets": ["string"],
     "sources": ["semantic_scholar", "arxiv"],
+    "quality_checks": ["string"],
     "notes": "string"
   },
   "queries": ["string"],

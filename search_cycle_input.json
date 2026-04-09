@@ -39,6 +39,27 @@
       "Exclude papers without enough abstract detail to judge task relevance."
     ]
   },
+  "quality_criteria": {
+    "must_cover": [
+      "Include core papers on rapid, real-time, or early-window fNIRS decoding.",
+      "Cover both methodological decoding papers and BCI or application-oriented studies.",
+      "Use query variants that include rapid, low-latency, real-time, and single-trial language."
+    ],
+    "must_avoid": [
+      "Do not include papers only because they are recent if they do not address decoding.",
+      "Do not bias the candidate set toward only positive or only application-heavy studies.",
+      "Do not rely on title-only relevance judgments when the abstract is available."
+    ],
+    "selection_principles": [
+      "Use more than one scholarly source when possible.",
+      "Keep only candidate papers with explicit abstract-level inclusion reasons.",
+      "Prefer papers that can support downstream gap analysis and experiment design."
+    ],
+    "stop_conditions": [
+      "The candidate set is coherent enough for researcher review.",
+      "The search covers more than one query angle across decoding method, latency, and application context."
+    ]
+  },
   "previous_feedback": [],
   "previous_output_ref": null,
   "status": "ready",

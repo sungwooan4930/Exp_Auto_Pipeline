@@ -28,6 +28,21 @@
       "Replace with project-specific exclusion rules."
     ]
   },
+  "quality_criteria": {
+    "must_cover": [
+      "Replace with must-cover search requirements."
+    ],
+    "must_avoid": [
+      "Replace with search failure patterns to avoid."
+    ],
+    "selection_principles": [
+      "Use more than one scholarly source when possible.",
+      "Keep only candidates with explicit inclusion reasons."
+    ],
+    "stop_conditions": [
+      "Replace with the conditions for handing the result to researcher review."
+    ]
+  },
   "previous_feedback": [],
   "previous_output_ref": null,
   "status": "draft",
